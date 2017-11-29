@@ -1,55 +1,49 @@
-# Collaborative Todo-App with Jet
+# Kandy Automation Test Framework
 
-In this article I demonstrate how to create a realtime collaborative Todo-App with
-[Jet](http://jetbus.io). The App will be able to:
+This repository is for Frameork of realtime testing of Kandy.js code with node-jet api and mocha. The Framework will be able to:
 
-   - Create calls
-   
-   - Edit Todos
-   - Work simultaneously with multiple users
+   - Create calls and share information between peers
+   - Create conversation share messages between peers
+   - Edit Call State
+   - Work simultaneously with multiple call peers
 	
-Working simlutaneously means, that multiple users can edit the todo-list
-at the same time and everyone sees each other's changes instantly.
+Multiple clients can edit the call state at the same time and ever client sees each other client state changes instantly.
 
-The complete project source is available [here](https://github.com/lipp/node-jet/tree/master/examples/todo).
+
 To build and run this project run:
 
 ```sh
-git clone http://github.com/lipp/node-jet
-cd node-jet/examples/todo
+git clone git@github.com:rasimavci/sdk-test.git
+cd sdk-test
 npm install
 npm run build
 npm start 8090
 ```
 
-Open some Browser tabs on [localhost port 8090](http://localhost:8090) and watch realtime changes.
+Open some browser tab on your localhost and start a call and realtime state changes.
 
-If everything works fine, you should see something like this:
-
-[![Jet Todo-App](../../jet-todo.png)](http://jetbus.io:8080)
-
-## What is Jet?
+## What is KATE ?
  
-In many ways Jet is similar to [Pusher](http://pusher.com) or [Firebase](http://firebase.com) as it
-can be used as backbone for distributed realtime Apps.
-However, Jet has some notable differences:
+KATE as its name implies is an framework for test automation. Can be used as core for REST API Apps.
+
+However KATE is more than that:
 
    - Self-hostable
-   - Fully customizable backend-logic (e.g. validation)
-   - Flexible realtime filters
-   - Flexible realtime sorting (low-traffic)
-   - Distributed Services / Content
+   - Fully moduler approach, UAT (Unit Under Test) is customizable
+   - Flexible realtime APIs
+   - Distributed Services with Node-Jet
+   - Flexible third party test/assertion library
 
 
 Self-hosted means that running **Jet does not involve any 3rd party servers** where your data passes through.
-Instead the Jet Daemon runs on **your** machine and can be easily embedded into your
-Node.js based webserver. 
+In standard way  Node-Jet Daemon runs on pc but can be easily embedded into any Node.js based webserver. 
 
-Realtime colloboration between clients can save you a lot of time. Imagine you have hundreds of tests, but standard time for a test to be run on UI takes 3-4 minutes. 
-and updates in realtime.
-You don't have to check all UI message and filter them at the client level.
+## What is Real Benefit ?
+Realtime colloboration between test clients can save you a lot of time. Imagine you have hundreds of tests, and each of them needs to be verified in real environment. Standard time for a test to be run on UI takes 3-4 minutes each. 
+KATE helps you run your API tests without mocking anything. Since inline used node-jet library updates states in realtime, reamining is up to your API call functions.
+You don't have to check all UI message and filter them at the client level ! API testing was never been easy.
 
-KATE uses node-Jet , a Javascript framework for realtime communication. It is an open protocol with compatible implementation.
+KATE uses Node-Jet , a Javascript framework for realtime communication. It is an open protocol with compatible implementation.
 
    - [Node.js + Browser](http://github.com/lipp/node-jet)
    - [Lua](http://github.com/lipp/lua-jet)
@@ -57,41 +51,47 @@ KATE uses node-Jet , a Javascript framework for realtime communication. It is an
    - C (work in progress)
 
 
-Jet is free and open source.
+Both Node-Jet, Mocha and Ava are free and open source libraries.
 
 
 
-## How to use Jet
+## How to use KATE
 
-For this project I need:
+For this project all you need:
 
-   - Jet
-   - Webserver
+   - A browser
+   - Node-Jet webserver
+   - An API to test
 
 
 A webserver is required for serving clients. Node.js https server handles this.
--buraya https server kodları gelecek.
+-Creating node.je https server explainedd below. For Kandy.js testing, secure webserver is used.
 
--cygwin ile lisans oluşturmayı göster.
+-If you have licensing issues for a secure server on your pc, please creat ssl license with cygwin or some other tools.
 
-Subsequently I will create these files:
+İn src folder, you will see these files:
 
-   - [todo-server.js](./todo-server.js) (Webserver + Jet Daemon + Jet Peer)
-   - [todo-client.js](./todo-client.js) (Jet Peer)
-   - [index.html](./index.html)
+   - [sdktest-server.js](./sdktest-server.js) (Node.js Webserver + Node-Jet Daemon + Node-Jet Peer as Kandy Client.)
+   - [sdktest-client.js](./sdk-client.js) (Kandy client which uses Jet Peer)
+   - [instructor.html](./instructor.html) (Instructor peer to control overall test running and clients.)
 
-## The webserver
+## The call and message server
 
-The todo-server.js will provide a webserver for serving static files and Jet Daemon as communication center. A Jet Peer will finally add the Todo-App logic be providing means for:
+The sdktest-server.js will provide a webserver for serving call and conversation objects besides providing Jet Daemon as communication center. 
 
-   - create Todos
-   - delete Todos
-   - let Todos change
+A Jet Peer will finally add the Call Server-App logic be providing means for:
+
+   - create Calls & Conversations
+   - delete Calls & Conversations
+   - update Call state
+   - send message
+   - send API request (addressbook, contacts, voicemail etc.)
+   - update information by listening events
 
 
-### Static file server and Jet Daemon
+### Call Server and Jet Daemon
  
-First I will setup the webserver for static files and create a Jet Daemon:
+First I will setup the webserver for call objects and create a Jet Daemon:
 
 ```javascript
 var jet = require('node-jet');
@@ -114,41 +114,38 @@ daemon.listen({
 });
 ```
 
-The Jet [Daemon](https://github.com/lipp/node-jet/blob/master/doc/daemon.md) uses Websockets 
-for communication and is hooked up to the webserver so that
-both listen on the same port. If required, the Daemon may run on a different port or even on another
-machine.
+The Daemon uses Websocket for communication and is hooked up to the webserver so that both listen on the same port. 
+Daemon may run on any pc. Currently first client peer also run on server pc. If required, the Daemon may run on a totally different pc or different port. 
 
-Next I will provide the Todo-App service, by creating a [Peer](https://github.com/lipp/node-jet/blob/master/doc/peer.md)
-and connecting it to the Daemon.
-But first it is necessary to understand the basics of Jet's core components: **States** and **Methods**.
+Next comes  the Call-App service, by creating a [Peer] and connecting it to the Daemon you are ready for it.
+But first it is necessary to understand the basics of KATE's core components inside Node-Jet: **States** and **Methods**.
 
 
-### Jet Methods Primer
+### Node-Jet Methods
 
-For defining actions Jet provides **Methods**. They are defined by a unique **path** and a **function**, 
+For defining actions Node-Jet library provides **Methods**. They are defined by a unique **path** and a **function**, 
 which gets invoked when the Method is called by another Peer. This snippet adds a Method which prints
 two arguments to the console:
 
 ```javascript
-var print = new jet.Method('print');
-print.on('call', function(a, b) {
+var log = new jet.Method('log');
+log.on('call', function(a, b) {
   console.log(a, b);
 });
 
-peer.add(print);
+peer.add(log);
 ```
 
-Another Peer may now consume the "print" service like this:
+Another Client Peer may now consume the "log" service like this:
 
 ```javascript
-otherPeer.call('print', ['Hello', 'World']);
+otherPeer.call('log', ['Call', 'Started']);
 ```
 
 Methods may have **any JSON-compatible argument** type and may **return any JSON-compatible** value.
-Read more on Methods in the [Doc](https://github.com/lipp/node-jet/blob/master/doc/peer.md#method--peermethoddesc-callbacks).
 
-### Jet States Primer
+
+### Jet States (Aka KATE Partners)
 
 A Jet State is similar to a database document. It has a unique **path** and an associated value, which can
 be of any JSON-compatible type. A **set callback** can be specified, which allows the State to react on change requests.
@@ -189,32 +186,32 @@ appropriate inside the set callback, like:
 
 No matter what you do, all Peers will have the actual value of the State and **stay in sync**. 
  
-### Implement the Todo-Service Peer
+### Implement the Call-Server Peer
 
-The following implementation also goes to the todo-server.js file. To group the Todo-App functionality
-in a "namespace" I prefix all State and Method paths with "todo/". 
+The following implementation also goes to the sdktest-server.js file. To group the Call-App functionality
+in a "namespace" , all State and Method related to call has paths start with "call/". 
 
-Create a Peer which connects to the local Daemon, an Object to store all Todo States and a simple Todo class.
+Create a Peer which connects to the local Daemon, an Object to store all Call States and a simple Call class.
 
 ```javascript
 var peer = new jet.Peer({
   url: 'ws://localhost:' + port
 });
 
-var todoStates = {};
+var callStates = {};
 
-var todoId = 0;
+var callId = 0;
 
-var Todo = function(title) {
+var Call = function(title) {
   if (typeof title !== 'string') {
     throw new Error('title must be a string');
   }
-  this.id = todoId++;
+  this.id = callId++;
   this.title = title;
   this.completed = false;
 };
 
-Todo.prototype.merge = function(other) {
+Call.prototype.merge = function(other) {
   if (other.completed !== undefined) {
     this.completed = other.completed;
   }
@@ -224,56 +221,56 @@ Todo.prototype.merge = function(other) {
   }
 };
 
-Todo.prototype.id = function() {
+Call.prototype.id = function() {
   return this.id;
 };
 ```
 
-Provide the **todo/add** Method, which will create a new Todo State when called.
+Provided **call/add** Method, which will create a new Call Object in state when called.
 
 ```javascript
-var addTodo = new jet.Method('todo/add');
+var addCall = new jet.Method('call/add');
 
-addTodo.on('call', function (args) {
+addCall.on('call', function (args) {
 	var title = args[0];
-	var todo = new Todo(title);
+	var call = new Call(title);
 
-	// create a new todo state and store ref.
-	var todoState = new jet.State('todo/#' + todo.id, todo);
-	todoState.on('set', function (requestedTodo) {
-		todo.merge(requestedTodo);
+	// create a new call state and store ref.
+	var callState = new jet.State('call/#' + call.id, call);
+	callState.on('set', function (requestedCall) {
+		call.merge(requestedCall);
 		return {
-			value: todo
+			value: call
 		};
 
 	});
-	todoStates[todo.id] = todoState;
-	peer.add(todoState);
+	callStates[call.id] = callState;
+	peer.add(callState);
 });
 ```
 
-The **todo/remove** Method will remove the Todo with specified id.
+The **call/remove** Method will remove the Call with specified id.
 
 ```javascript
-var removeTodo = new jet.Method('todo/remove');
+var removeCall = new jet.Method('call/remove');
 
-removeTodo.on('call', function (args) {
-	var todoId = args[0];
-	if (todoStates[todoId]) {
-		todoStates[todoId].remove();
-		delete todoStates[todoId];
+removeCall.on('call', function (args) {
+	var callId = args[0];
+	if (callStates[callId]) {
+		callStates[callId].remove();
+		delete callStates[callId];
 	}
 });
 ```
 
-## The Jet Client
+## The Test Client (Aka KATE Partners)
 
-The Peer running in the Browser will act as a "consumer" of the Methods and States the Todo-Server Peer provides.
+The Peer running in the Browser will act as a "consumer" of the Methods and States the Call-Server Peer provides.
 It will:
 
-   - **fetch** the Todo States to display them
-   - call the **todo/add** Method to create Todos
-   - call the **todo/remove** Method to delete Todos
+   - **fetch** the Call States to display them in browser. This allow testers to easy follow the tests during test running.
+   - call the **call/add** Method to create Calls
+   - call the **call/remove** Method to delete Calls
    - edit States by calling **set**
 
 ### Jet Fetch Primer
@@ -281,84 +278,83 @@ It will:
 Fetching is like having a realtime query. It provides you with initial values of States and keeps track of events.
 These events include:
 
-    - a new State has been added
-    - a State has been removed
-    - a State's value has changed
+    - a new Call Object has been added
+    - a Call Object has been removed
+    - a Call State's value has changed
 
 The Jet Daemon is able to filter and sort your fetch query based on **paths** and/or **values**. A callback must be provided
-that will be invoked everytime something relevant happens. A fetch for getting the **top ten female players** could look like this:
+that will be invoked everytime something relevant happens. A fetch for getting the **active calls** could look like this:
 
 ```javascript
-var topFemalePlayers = new jet.Fetcher()
-  .path('startsWith', 'player/')
-  .key('gender', 'equals', 'female')
-  .sortByKey('score', 'number')
+var activeCalls = new jet.Fetcher()
+  .path('startsWith', 'call/')
+  .key('state', 'equals', 'IN_CALL')
+  .sortByKey('id', 'number')
   .range(1, 10)
   .descending()
   .on('data', function(topFemalePlayersArray) {});
 
-peer.fetch(topFemalePlayers);
+peer.fetch(activeCalls);
 ```
 
-Fetch is very powerful and is exmplained in more detail in the API [doc](https://github.com/lipp/node-jet/blob/master/doc/peer.md#fetch--peerfetchrule-fetchcb-callbacks). Note that there is no **get** call at all! That is because Jet wants to keep pollers out, since they may decrease system performance.
+Fetch is very powerful and is used during tests.
+There is also **get** method which being called for check result during tests. 
 
 
-### Implement Todo-Client
+### Implement Call-Client
 
-The Todo-Client implementation is straight forward:
+The Call-Client implementation is straight forward:
 
 ```javascript
 var peer = new jet.Peer({url: 'ws://' + window.location.host});
 
-var addTodo = function(title) {
-  peer.call('todo/add', [title]);
+var addCall = function(title) {
+  peer.call('call/add', [title]);
 };
 
-var removeTodo = function(id) {
-  peer.call('todo/remove', [id]);
+var removeCall = function(id) {
+  peer.call('call/remove', [id]);
 };
 
-var removeAllTodos = function() {
-  peer.call('todo/remove', []);
+var removeAllCallss = function() {
+  peer.call('call/remove', []);
 };
 
-var setTodoTitle = function(id, title) {
-  peer.set('todo/#' + id, {title: title});
+var setCallTitle = function(id, title) {
+  peer.set('call/#' + id, {title: title});
 };
 
-var setTodoCompleted = function(id, completed) {
-  peer.set('todo/#' + id, {completed: completed});
+var setCallCompleted = function(id, completed) {
+  peer.set('call/#' + id, {completed: completed});
 };
 
-var renderTodos = function(todos) {
+var renderCalls = function(calls) {
   ...
 };
 
-var todos = new jet.Fetcher()
-  .path('startsWith', 'todo/#')
+var Callss = new jet.Fetcher()
+  .path('startsWith', 'call/#')
   .sortByKey('id', 'number')
   .range(1, 30)
-  .on('data', renderTodos);
+  .on('data', renderCalls);
 
-peer.fetch(todos);
+peer.fetch(calls);
 ```
 
 # Conclusion
 
-In this article I showed you how to create a simple **realtime collaborative Todo-App**
-with Node.js and Jet. The todo list can be edited by multiple users 
-simultaneously and always stays in sync.
-The Jet webserver performs server-side custom validation, which enables you to
-keep your App integre and flexible at the same time.
+In this article I showed you how to create a simple **realtime collaborative Call-App**
+with Node.js and Jet. The call list can be edited by multiple clients simultaneously and always stays in sync.
+The KATE node-jet embedded webserver performs server-side custom validation, which enables you to
+keep your Tested Application integre and flexible at the same time.
 
-You **don't need any cloud service** like Firebase or Pusher to write distributed realtime Apps and **keep
-complete control** over your servers and your data.
+You **don't need any third party server and **you always keep complete control** over your servers and your data.
 
 At [HBM](http://www.hbm.com) the Jet protocol is used in production code of medium- and embedded-class devices 
 and we are constantly working to improve it.
 
-If you want to read more, checkout the [Jet Homepage](http://jetbus.io) or the github repositories:
+If you want to read more, checkout the [Kandy.js Homepage](http://jetbus.io) or its github repository:
 
-   - [Jet for Node.js + Browser](http://github.com/lipp/node-jet)
-   - [Jet for Lua](http://github.com/lipp/lua-jet)
-   - [Jet for Arduino](https://github.com/lipp/Arduino-Jet)
+   - [for Kandy.js + Browser](https://github.com/Fring/Kandy.js)
+   - [for KATE](https://github.com/rasimavci/sdk-test)
+   
