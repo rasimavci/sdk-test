@@ -5,7 +5,7 @@ This repository is for Frameork of realtime testing of Kandy.js code with node-j
    - Create calls and share information between peers
    - Create conversation share messages between peers
    - Edit Call State
-   - Work simultaneously with multiple call peers
+   - Work simultaneously with multiple clients
 	
 Multiple clients can edit the call state at the same time and ever client sees each other client state changes instantly.
 
@@ -39,19 +39,19 @@ Self-hosted means that running **Jet does not involve any 3rd party servers** wh
 In standard way  Node-Jet Daemon runs on pc but can be easily embedded into any Node.js based webserver. 
 
 ## What is Real Benefit ?
-Realtime colloboration between test clients can save you a lot of time. Imagine you have hundreds of tests, and each of them needs to be verified in real environment. Standard time for a test to be run on UI takes 3-4 minutes each. 
-KATE helps you run your API tests without mocking anything. Since inline used node-jet library updates states in realtime, reamining is up to your API call functions.
-You don't have to check all UI message and filter them at the client level ! API testing was never been easy.
+Realtime colloboration between test clients can save you a lot of time. Imagine you have hundreds of tests, and test needs to be verified in real environment. Standard time for a test to be run on a UI takes 3-4 minutes each. 
+KATE helps you run your API tests without user interface and without mocking anything. By this way, KATE stands between unit test and UI test. Since inline used node-jet library updates states in realtime, all you need is to instruct your test clients to make API calls and get results.
+You don't have to check any UI message and filter them at the client level ! API testing was never been easy.
 
-KATE uses Node-Jet , a Javascript framework for realtime communication. It is an open protocol with compatible implementation.
+KATE uses Node-Jet , a Javascript framework for realtime communication. It is an open protocol with compatible implementation.a 
 
    - [Node.js + Browser](http://github.com/lipp/node-jet)
-   - [Lua](http://github.com/lipp/lua-jet)
-   - [Arduino](https://github.com/lipp/Arduino-Jet)
-   - C (work in progress)
+   - [Mocha](https://mochajs.org/)
+   - [Chai](http://chaijs.com/)
 
 
-Both Node-Jet, Mocha and Ava are free and open source libraries.
+
+Both Node-Jet, Mocha and Chair are free and open source libraries.
 
 
 
@@ -65,17 +65,17 @@ For this project all you need:
 
 
 A webserver is required for serving clients. Node.js https server handles this.
--Creating node.je https server explainedd below. For Kandy.js testing, secure webserver is used.
+-Creating node.js https server explained below. For Kandy.js testing, secure webserver is used.
 
 -If you have licensing issues for a secure server on your pc, please creat ssl license with cygwin or some other tools.
 
-İn src folder, you will see these files:
+Inside src folder, you will see these files:
 
    - [sdktest-server.js](./sdktest-server.js) (Node.js Webserver + Node-Jet Daemon + Node-Jet Peer as Kandy Client.)
    - [sdktest-client.js](./sdk-client.js) (Kandy client which uses Jet Peer)
    - [instructor.html](./instructor.html) (Instructor peer to control overall test running and clients.)
 
-## The call and message server
+## The call and conversation server
 
 The sdktest-server.js will provide a webserver for serving call and conversation objects besides providing Jet Daemon as communication center. 
 
@@ -91,7 +91,7 @@ A Jet Peer will finally add the Call Server-App logic be providing means for:
 
 ### Call Server and Jet Daemon
  
-First I will setup the webserver for call objects and create a Jet Daemon:
+First you need to setup the webserver for call objects and create a Jet Daemon:
 
 ```javascript
 var jet = require('node-jet');
@@ -145,48 +145,48 @@ otherPeer.call('log', ['Call', 'Started']);
 Methods may have **any JSON-compatible argument** type and may **return any JSON-compatible** value.
 
 
-### Jet States (Aka KATE Partners)
+### KATE Call Objects (Node-Jet States)
 
-A Jet State is similar to a database document. It has a unique **path** and an associated value, which can
+A Call object in State is similar to a JSL API call object. It has a unique **path** and an associated value, which can
 be of any JSON-compatible type. A **set callback** can be specified, which allows the State to react on change requests.
 If the set function does not throw, **a State-Change is posted automatically**.
 
 ```javascript
 
-var francis = new jet.State('persons/#12342',{name: 'Francis', age: 33});
+var burak = new jet.State('contacts/#12342',{name: 'Burak', age: 25, mailaddress: bkocak@netas.com.tr, firstname: burak, lastname: kocak});
 
-francis.on('set', function(requestedValue) {
+burak.on('set', function(requestedValue) {
   if (requestedValue.age < this.value().age) {
     throw new Error('Sorry, this is not possible');
   }
 });
 
-peer.add(francis);
+peer.add(jean-luc);
 ```
 
 Another Peer may try to modify States:
 
 ```javascript
-peer.set('persons/#52A92d', {name: 'Francis U.', age: 34});
+peer.set('persons/#52A92d', {name: 'Burak U.', age: 34});
 
-peer.set('persons/#52A92d', {name: 'Francis U.', age: 20})
+peer.set('persons/#52A92d', {name: 'Burak U.', age: 20})
   .then(function() {
-    console.log('Francis just unaged');
+    console.log('Burak just unaged');
   }).catch(function(err) {
     console.log('Damn', err);
   });
 ```
 
-This is just a simple uncomplete example to show custom validation for change requests. Jet allows you to do anything
+This is just a simple uncomplete example to show custom validation for change requests. KATE allows you to do anything
 appropriate inside the set callback, like:
 
    - interpolating the requested value (partial changes)
    - custom validation
    - adapting the requested value
 
-No matter what you do, all Peers will have the actual value of the State and **stay in sync**. 
+No matter what you do, all Test Peers will have the actual value of the State and **stay in sync** all the time !
  
-### Implement the Call-Server Peer
+### Implement the Call-Server Peer (Local Peer)
 
 The following implementation also goes to the sdktest-server.js file. To group the Call-App functionality
 in a "namespace" , all State and Method related to call has paths start with "call/". 
@@ -341,6 +341,218 @@ var Callss = new jet.Fetcher()
 peer.fetch(calls);
 ```
 
+### Implement Conversation Participant
+
+The implementation for conversation object in sdktest-server.js
+
+```javascript
+// Declare Conversation function constructor
+var messageId = 0
+var Message = function (title) {
+  this.id = messageId++
+  if (typeof title !== 'string') {
+    throw new Error('title must be a string')
+  }
+
+  this.title = title
+  this.sender = ''
+  this.id_orig = ''
+  this.id_term = ''
+  this.conversation_orig = false
+  this.conversation_term = false
+  this.messages_orig = []
+  this.messages_term = []
+  this.message = ''
+  this.participants = []
+  this.participant = ''
+}
+```
+
+Declare fecther for Message Object
+
+```javascript
+var msgObj = new jet.Fetcher()
+  .path('startsWith', 'msg/#')
+  .sortByKey('id', 'number')
+  .range(1, 30)
+  .on('data', function (msgObj) {
+
+    var msgArray = msgObj[0].value.messages_orig;
+    if (msgArray) { //[l - 1].timestamp
+      chatObj.innerHTML = ''
+      msgArray.forEach(function (msg) {
+        var msgLabel = document.createElement('label');
+        msgLabel.className = 'chatMessage' + (loginId == msg.sender ? '1' : '2');
+        msgLabel.innerHTML = '<i>' + msg.sender + '</i><br>' + msg.parts[0].text
+        chatObj.appendChild(msgLabel);
+      })
+    }
+  })
+```
+
+### Implement Peer Class
+
+Class Constructor
+```javascript
+class Peer_kandy1 {
+    constructor() {
+        this.peer = new jet.Peer({
+            url: (window.location.protocol === 'http:' ? 'ws://' : 'wss://') + window.location.host
+        });
+
+        var self = this;
+```
+
+Declare all call methods inside the constructor
+```javascript
+        this.loginMethod = new jet.Method('call/login1');
+        this.loginMethod.on('call', function (args) {
+            console.log('Peer: login method called with credentials..', + args);
+            self.login(args)
+        });
+		
+        this.logoutMethod = new jet.Method('call/logout1');
+        this.logoutMethod.on('call', function (args) {
+            console.log('Peer: logout method called..');
+            self.logout()
+        });		
+....		
+```		
+
+Connect peer and add methods to peer
+```javascript
+        this.peer.connect().then(function () {
+            console.log('Peer1: connection to Daemon established');
+            //console.log('Peer Daemon Info: ', this.peer.daemonInfo);
+        });
+
+        this.peer.add(this.loginMethod).then(function () {
+            console.log('Peer: login method added')
+        }).catch(function (err) {
+            console.log('Peer: add login method failed', err);
+        });
+
+        this.peer.add(this.logoutMethod).then(function () {
+            console.log('Peer: logout method added')
+        }).catch(function (err) {
+            console.log('Peer: add logout method failed', err);
+        });
+
+```
+
+Write call state to node-jet state whenever a stateChange event fired
+
+```javascript
+
+ kandy.on('call:stateChange',function (data) {
+    if (call.to === 'hguner@genband.com' ) {
+        firstCallId = call.id;
+        self.peer.set('call/#' + 0, {
+        state_orig: call.state
+                    })
+                  }
+}				  
+```
+				  
+				  
+
+peer3.fetch(msgObj)
+
+### Test Environment
+
+### Implement Test Code With Mocha & Chai
+
+Mocha is used as test framework and Chai used as assertion library. Mocha and Chai libraries are choosed because they can be used in a Node.js environment as well as within the browser. Since Instructor and peers must run in browser you'll have to setup a test html page and use builds of these libraries:
+
+```html
+<body>
+  <div id="mocha"><p><a href=".">Index</a></p></div>
+  <div id="messages"></div>
+  <div id="fixtures"></div>
+  <script src="node_modules/moch/bin/mocha.js"></script>
+  <script src="node_modules/chai/chai.js"></script>
+  <script src="kandy.js"></script>
+  <script>mocha.setup('bdd')</script>
+  <script src="bundle.js"></script>
+  <script>mocha.run();</script>
+</body>
+```
+
+###  Testing Asynchronous Call Functions
+
+```javascript
+describe("On Prem Test Suite", function () {
+  describe("Basic Call Test", function () {
+    this.timeout(1500000);
+    it("Orig side Call Status should be IN_CALL", function (done) {
+      peer3.call('login/add', ['login1'])
+        .then(() => peer3.call('call/login1', [user1[0], user1[1]]))
+        .then(() => checkLogin('isConnected1', true))
+        .then((interval) => clearInterval(interval))
+        .then(() => peer3.call('call/login2', [user2[0], user2[1]]))
+        .then(() => checkLogin('isConnected2', true))
+        .then((interval) => clearInterval(interval))
+        .then(() => peer3.call('call/add', ['call1']))
+        .then(() => peer3.call('call/makeCall1', [user2[0]]))
+        .then(() => checkResult('call_term', 'incoming'))
+        .then((interval) => { clearInterval(interval); peer3.call('call/answerCall2', ['empty']) })
+        .then(() => checkResult('state_orig', 'IN_CALL'))
+        .then((interval) => clearInterval(interval))
+        .then(() => {
+     //     returnResult('state_term', 'IN_CALL').then((result) => expect(result).to.equal("IN_CALL"))
+          done(); //dont use .then(done) or things may break due to extra 
+        })
+        .catch(err => {
+          console.log(err);
+          done(err); //passing a parameter to done makes the test fail.
+        })
+
+    });
+```
+
+Test Code for Call Status Check.
+```javascript
+  it("Term side Call Status should be IN_CALL", function (done) {
+        checkResult('state_term', 'IN_CALL')
+        .then((interval) => clearInterval(interval))
+        .then(() => {
+          returnResult('state_term', 'IN_CALL').then((result) => expect(result).to.equal("IN_CALL"))
+          done(); //dont use .then(done) or things may break due to extra 
+        })
+        .catch(err => {
+          console.log(err);
+          done(err); //passing a parameter to done makes the test fail.
+        })
+
+    });
+```
+
+Code For Call End 
+```javascript
+  it("Call Should end properly", function (done) {
+        peer3.call('call/end1', [''])
+        .then(() => checkResult('state_term', 'ENDED'))
+        .then((interval) =>  clearInterval(interval)) 
+        .then(() => checkResult('state_orig', 'ENDED'))
+        .then((interval) =>  clearInterval(interval))                    
+        .then(() => checkResult('mediaState_orig', 'CLOSED'))
+        .then((interval) =>  clearInterval(interval))    
+        .then(() => peer3.call('call/clearCompleted', [0]))   
+        .then(() => {
+          returnResult('state_term', 'IN_CALL').then((result) => expect(result).to.equal("IN_CALL"))
+          done(); //dont use .then(done) or things may break due to extra 
+        })
+        .catch(err => {
+          console.log(err);
+          done(err); //passing a parameter to done makes the test fail.
+        })
+
+    });    
+
+  });
+```
+
+	
 # Conclusion
 
 In this article I showed you how to create a simple **realtime collaborative Call-App**
@@ -353,7 +565,7 @@ You **don't need any third party server and **you always keep complete control**
 At [HBM](http://www.hbm.com) the Jet protocol is used in production code of medium- and embedded-class devices 
 and we are constantly working to improve it.
 
-If you want to read more, checkout the [Kandy.js Homepage](http://jetbus.io) or its github repository:
+If you want to read more, checkout the [Kandy.js Homepage](https://github.com/Fring/Kandy.js) or its github repository:
 
    - [for Kandy.js + Browser](https://github.com/Fring/Kandy.js)
    - [for KATE](https://github.com/rasimavci/sdk-test)
