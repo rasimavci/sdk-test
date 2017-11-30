@@ -1,0 +1,236 @@
+<html>
+
+<head>
+    <title>API Test Instructor</title>
+    <link rel="stylesheet" href="base.css">
+</head>
+
+<body class="container">
+    <section id="callapp">
+        <header id="header">
+            <h1>SDK TEST - Peer</h1>
+
+            <form id="call-form">
+                <input id="new-todo" type="text" placeholder="Username or ID..." i autofocus>
+            </form>
+        </header>
+
+        <section id="main">
+            <input id="toggle-all" type="checkbox">
+            <label for="toggle-all">Mark all as complete</label>
+            <ul id="call-list">
+            </ul>
+
+        </section>
+        <footer id="footer" style="display: block;">
+            <span id="call-count">
+                <strong>1</strong> call</span>
+            <button id="clear-completed" style="display: none;">Clear completed</button>
+        </footer>
+
+    </section>
+    <p style="display:none;">
+        <button id="add-callStates" style="display: block; text-decoration: underline;">Add CallStates</button>
+        <input id="get-title" type="text" placeholder="title" />
+        <button id="set-title" style="display: block">Set Title</button>
+    </p>
+
+    
+    <p>
+        <b>
+            <label id="labelPeer1">Peer 2</label>   </b> |
+            <label id="auth-status">isConnected: false</label>
+      
+    </p>
+
+ 
+
+        <li class="peer2">
+            <p>
+                <b>
+                    <label id="labelCall1">Peer 2</label>
+                </b>
+
+                <b>
+                    <label id="labelP1Call1">First Call</label>
+                </b>
+            </p>
+
+                <input id="username" type="text" placeholder="id" value="oztemur@genband.com" size="12" />
+                <input id="password" type="text" placeholder="id" value="Genband.1234" size="12" />
+                <button id="login-btn">Login</button> |
+                <button id="logout-btn">Logout</button>
+            </p>
+
+            </p>
+
+                <input id="username2" type="text" placeholder="id" value="hguner@genband.com" size="12" />
+                <input id="password2" type="text" placeholder="id" value="ltve0168" size="12" />
+                <button id="login-btn2">Login</button> |
+                <button id="logout-btn2">Logout</button>
+            </p>
+
+            <p>
+                <input id="isAudioEnabled" type="checkbox" checked /> Audio Enabled
+                <input id="isVideoEnabled" type="checkbox" checked /> Video Enabled
+                <input id="sendInitialVideo" type="checkbox" /> Send Initial Video
+                <input id="sendScreenShare" type="checkbox" /> Send Screen Share
+                <input id="mediaSourceId" type="checkbox" /> Media Source Id
+            </p>
+
+            <p>
+                <input id="callee" type="text" placeholder="id" value="bkocak@genband.com" size="12" />
+                <button id="call-btn">Start Call</button> |
+                <button id="end-btn">End Call</button>
+            </p>
+
+           <p>
+
+
+
+            <select id="call-states2">
+                <option value="7">ANSWERING</option>
+                <option value="12">CALL_IN_PROGRESS</option>
+                <option value="13">EARLY_MEDIA</option>
+                <option value="3">ENDED</option>
+                <option value="6">INCOMING</option>
+                <option value="0">IN_CALL</option>
+                <option value="8">JOINED</option>
+                <option value="1">ON_HOLD</option>
+                <option value="11">ON_REMOTE_HOLD</option>
+                <option value="5">OUTGOING</option>
+                <option value="4">REJECTED</option>
+                <option value="9">RENEGOTIATION</option>
+                <option value="15">REPLACING</option>
+                <option value="2">RINGING</option>
+                <option value="10">TRANSFERRED</option>
+                <option value="14">TRANSFER_FAILURE</option>
+            </select>
+            <input id="get-id2" type="text" placeholder="id" size="1" />
+            <p>
+                <button id="setstate-btn">Set State</button>
+            </p>
+
+            <p>
+                <button id="answer-btn">Answer</button> |
+                <button id="reject-btn">Reject</button> |
+                <button id="ignore-btn">Ignore</button>
+            </p>
+
+            <p>
+                <button id="hold-btn">Hold</button> |
+                <button id="unhold-btn">Unhold</button> |
+                 <button id="mute-btn">Mute</button> |
+                <button id="unmute-btn">Unmute</button> |
+                <button id="videostart-btn">Video Start</button> |
+                <button id="videostop-btn">Video Stop</button>
+            </p>
+
+            <p>
+                <button id="merge-btn">Merge Calls</button>
+            </p>
+
+            <p>
+                <input id="get-targetid" type="text" placeholder="id" size="12" value="hguner@genband.com" />
+                <button id="transfer-btn">Blind Transfer</button>
+            </p>
+            <p>
+                <input id="get-forwardid" type="text" placeholder="id" size="12" />
+                <button id="forward-btn">Forward</button>
+            </p>
+
+
+
+
+            <p>
+                <select id="presence-states2">
+                    <option value="0">CONNECTED</option>
+                    <option value="1">UNAVAILABLE</option>
+                    <option value="2">AWAY</option>
+                    <option value="3">OUT_TO_LUNCH</option>
+                    <option value="4">BUSY</option>
+                    <option value="5">ON_VACATION</option>
+                    <option value="6">BE_RIGHT_BACK</option>
+                    <option value="7">ON_THE_PHONE</option>
+                    <option value="8">ACTIVE</option>
+                    <option value="9">INACTIVE</option>
+                    <option value="10">PENDING</option>
+                    <option value="11">OFFLINE</option>
+                    <option value="12">CONNECTEDNOTE</option>
+                    <option value="13">UNAVAILABLENOTE</option>
+                </select>
+                <button id="setpresence-btn">Set Presence</button> |
+                <button id="get-btn">Get Presences</button>
+
+            </p>
+
+
+           <fieldset>
+                <legend>Conversation</legend>
+                <input id="participant" type="text" placeholder="id" value="ravci@genband.com" />
+                <button id="createConversation">Create </button> |
+                <button id="fetchConversation">Fetch </button> |
+                <button id="createGroupConversation">Create Group </button>
+                <div class="chatContainer">
+                    <div class="chatField"></div>
+                </div>
+                <p>
+                    <textarea id="get-messageid" placeholder="Message..."></textarea>
+                    <div>
+                        <button id="send-btn">Send</button> |
+                        <button id="getmessages-btn">Get</button> |
+                        <button id="clearmessage-btn">Clear</button>
+                </p>
+
+                <p>
+                    <select id="messageProp">
+                        <option value="isPending">isPending</option>
+                        <option value="read">read</option>
+                        <option value="sender">sender</option>
+                        <option value="messageId">messageId</option>
+                    </select>
+                    <input type="text" id="messageProp-text" placeholder="true" />
+                    <button id="updatemessage-btn">Update</button>
+                    </div>
+                </p>
+
+                <p>
+                    <input type="text" id="fetchAmount" placeholder="50" size="2" value="2" />
+                    <button id="fetchmessages-btn">Fetch</button> |
+                    <button id="subscribe-btn">Subscribe</button> |
+                    <button id="unsubscribe-btn">Unsubscribe</button>
+                </p>
+
+                <p>
+                    <input type="file" id="file-input" />
+                    <button id="sendfile-btn">Send</button>
+                </p>
+            </fieldset>
+
+<button id="getresult-btn">Get State</button>
+
+
+        </li>
+    </ul>
+            <div class='content column'>
+                <div>
+                    Remote Video:
+                    <div id='remote-container' class='video-box'></div>
+                </div>
+                <div>
+                    Local Video:
+                    <div id='local-container' class='video-box'></div>
+                </div>
+            </div>
+    <footer id="info">
+
+    </footer>
+      
+    <!--
+    <script src='../../../compat/examples/autoFill.js'></script>
+    <script src='kandy.onprem.js'></script>
+    -->
+    <script src='bundle2.js'></script>
+</body>
+
+</html>
