@@ -113,12 +113,11 @@ describe("Messaging Test Suite with second participant", function () {
         .then(() => checkLogin('isConnected2', true))
         .then((interval) => clearInterval(interval))
         .then(() => {
-          //returnResult('state_term', 'IN_CALL').then((result) => expect(result).to.equal("IN_CALL"))
-          done(); //dont use .then(done) or things may break due to extra 
+          done();
         })
         .catch(err => {
           console.log(err);
-          done(err); //passing a parameter to done makes the test fail.
+          done(err);
         })
     });
 
@@ -127,15 +126,13 @@ describe("Messaging Test Suite with second participant", function () {
         .then(() => peer3.call('msg/createConversation1', [participant2[0], 1]))
         .then(() => checkResultMsg('conversation_orig', true, 0))
         .then((interval) => clearInterval(interval))
-        //  .then(() => checkResultMsg('conversation_started', true))
-        //  .then((interval) => clearInterval(interval))          
+
         .then(() => {
-          //returnResult('state_term', 'IN_CALL').then((result) => expect(result).to.equal("IN_CALL"))
-          done(); //dont use .then(done) or things may break due to extra 
+          done();
         })
         .catch(err => {
           console.log(err);
-          done(err); //passing a parameter to done makes the test fail.
+          done(err);
         })
     });
 
@@ -143,15 +140,13 @@ describe("Messaging Test Suite with second participant", function () {
       peer3.call('msg/createConversation2', [participant1[0]])
         .then(() => checkResultMsg('conversation_term', true, 0))
         .then((interval) => clearInterval(interval))
-        //  .then(() => checkResultMsg('conversation_started', true))
-        //  .then((interval) => clearInterval(interval))          
+
         .then(() => {
-          //returnResult('state_term', 'IN_CALL').then((result) => expect(result).to.equal("IN_CALL"))
-          done(); //dont use .then(done) or things may break due to extra 
+          done();
         })
         .catch(err => {
           console.log(err);
-          done(err); //passing a parameter to done makes the test fail.
+          done(err);
         })
     });
 
@@ -164,12 +159,11 @@ describe("Messaging Test Suite with second participant", function () {
     it("First participant should send message to other participant", function (done) {
       peer3.call('msg/imSend1', ['Hello Participant #2', 1])
         .then(() => {
-          //returnResult('state_term', 'IN_CALL').then((result) => expect(result).to.equal("IN_CALL"))
-          done(); //dont use .then(done) or things may break due to extra 
+          done();
         })
         .catch(err => {
           console.log(err);
-          done(err); //passing a parameter to done makes the test fail.
+          done(err);
         })
     });
 
@@ -177,23 +171,22 @@ describe("Messaging Test Suite with second participant", function () {
       checkResultArrayLastElement('messages_term', 'Hello Participant #2', 0)
         .then((interval) => clearInterval(interval))
         .then(() => {
-          done(); //dont use .then(done) or things may break due to extra 
+          done();
         })
         .catch(err => {
           console.log(err);
-          done(err); //passing a parameter to done makes the test fail.
+          done(err);
         })
     });
 
     it("Second participant should send message to other participant", function (done) {
       peer3.call('msg/imSend2', ['Hello Participant #1'])
         .then(() => {
-          //returnResult('state_term', 'IN_CALL').then((result) => expect(result).to.equal("IN_CALL"))
-          done(); //dont use .then(done) or things may break due to extra 
+          done();
         })
         .catch(err => {
           console.log(err);
-          done(err); //passing a parameter to done makes the test fail.
+          done(err);
         })
     });
 
@@ -201,11 +194,11 @@ describe("Messaging Test Suite with second participant", function () {
       checkResultArrayLastElement('messages_orig', 'Hello Participant #1', 0)
         .then((interval) => clearInterval(interval))
         .then(() => {
-          done(); //dont use .then(done) or things may break due to extra 
+          done();
         })
         .catch(err => {
           console.log(err);
-          done(err); //passing a parameter to done makes the test fail.
+          done(err);
         })
     });
 
@@ -230,11 +223,11 @@ describe("Messaging Test Suite with second participant", function () {
       checkResultArrayLength('messages_term', 0, 0)
         .then((interval) => clearInterval(interval))
         .then(() => {
-          done(); //dont use .then(done) or things may break due to extra 
+          done();
         })
         .catch(err => {
           console.log(err);
-          done(err); //passing a parameter to done makes the test fail.
+          done(err);
         })
     });
 
@@ -254,11 +247,11 @@ describe("Messaging Test Suite with second participant", function () {
       checkResultArrayLength('messages_orig', 0, 0)
         .then((interval) => clearInterval(interval))
         .then(() => {
-          done(); //dont use .then(done) or things may break due to extra 
+          done();
         })
         .catch(err => {
           console.log(err);
-          done(err); //passing a parameter to done makes the test fail.
+          done(err);
         })
     });
 
@@ -296,12 +289,11 @@ describe("Messaging Test Suite with third participant", function () {
         .then(() => checkLogin('isConnected3', true))
         .then((interval) => clearInterval(interval))
         .then(() => {
-          //returnResult('state_term', 'IN_CALL').then((result) => expect(result).to.equal("IN_CALL"))
-          done(); //dont use .then(done) or things may break due to extra 
+          done();
         })
         .catch(err => {
           console.log(err);
-          done(err); //passing a parameter to done makes the test fail.
+          done(err);
         })
     });
 
@@ -309,31 +301,25 @@ describe("Messaging Test Suite with third participant", function () {
       peer3.call('msg/createConversation1', [participant3[0], 2])
         .then(() => checkResultMsg('conversation_orig', true, 1))
         .then((interval) => clearInterval(interval))
-        //  .then(() => checkResultMsg('conversation_started', true))
-        //  .then((interval) => clearInterval(interval))          
         .then(() => {
-          //returnResult('state_term', 'IN_CALL').then((result) => expect(result).to.equal("IN_CALL"))
-          done(); //dont use .then(done) or things may break due to extra 
+          done();
         })
         .catch(err => {
           console.log(err);
-          done(err); //passing a parameter to done makes the test fail.
+          done(err);
         })
     });
 
     it("Should create conversation object for third participant", function (done) {
       peer3.call('msg/createConversation3', [participant1[0]])
-        .then(() => checkResultMsg('conversation_term', true, 0))
+        .then(() => checkResultMsg('conversation_term', true, 1))
         .then((interval) => clearInterval(interval))
-        //  .then(() => checkResultMsg('conversation_started', true))
-        //  .then((interval) => clearInterval(interval))          
         .then(() => {
-          //returnResult('state_term', 'IN_CALL').then((result) => expect(result).to.equal("IN_CALL"))
-          done(); //dont use .then(done) or things may break due to extra 
+          done();
         })
         .catch(err => {
           console.log(err);
-          done(err); //passing a parameter to done makes the test fail.
+          done(err);
         })
     });
 
@@ -346,12 +332,11 @@ describe("Messaging Test Suite with third participant", function () {
     it("Third participant should send message to other participant", function (done) {
       peer3.call('msg/imSend1', ['Hello Participant #3', 2])
         .then(() => {
-          //returnResult('state_term', 'IN_CALL').then((result) => expect(result).to.equal("IN_CALL"))
-          done(); //dont use .then(done) or things may break due to extra 
+          done();
         })
         .catch(err => {
           console.log(err);
-          done(err); //passing a parameter to done makes the test fail.
+          done(err);
         })
     });
 
@@ -359,11 +344,11 @@ describe("Messaging Test Suite with third participant", function () {
       checkResultArrayLastElement('messages_term', 'Hello Participant #3', 1)
         .then((interval) => clearInterval(interval))
         .then(() => {
-          done(); //dont use .then(done) or things may break due to extra 
+          done();
         })
         .catch(err => {
           console.log(err);
-          done(err); //passing a parameter to done makes the test fail.
+          done(err);
         })
     });
 
@@ -384,31 +369,52 @@ describe("Messaging Test Suite with third participant", function () {
         })
     });
 
-    it("Third participant Should validate the message is cleared", function (done) {
+    it("Third participant should validate the message is cleared", function (done) {
       checkResultArrayLength('messages_term', 0, 1)
         .then((interval) => clearInterval(interval))
         .then(() => {
-          done(); //dont use .then(done) or things may break due to extra 
+          done();
         })
         .catch(err => {
           console.log(err);
-          done(err); //passing a parameter to done makes the test fail.
+          done(err);
         })
     });
 
   });
 
-  /*
   describe("Subscribe to conversation test", function () {
     this.timeout(15000);
-    it("Subscribe callback should fired for participants", function (done) {
+
+    it("Subscribe callback should fired for participant", function (done) {
+      peer3.call('msg/subscribe3', [''])
+        .then(() => checkResultMsg('subscribe_term', true, 1))
+        .then((interval) => clearInterval(interval))
+        .then(() => {
+          done();
+        })
+        .catch(err => {
+          console.log(err);
+          done(err);
+        })
     });
   });
+  
   describe("Unsubscribe to conversation test", function () {
     this.timeout(15000);
-    it("Unsubscribe callback should fired for participants", function (done) {
+    it("Unsubscribe callback should fired for participant", function (done) {
+      peer3.call('msg/unsubscribe3', [''])
+        .then(() => checkResultMsg('subscribe_term', false, 1))
+        .then((interval) => clearInterval(interval))
+        .then(() => {
+          done();
+        })
+        .catch(err => {
+          console.log(err);
+          done(err);
+        })
     });
   });
-  */
+
 
 }); 
