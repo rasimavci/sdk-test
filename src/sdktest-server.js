@@ -16,8 +16,8 @@ var serve = serveStatic('./')
 
 //create options
 var ssl = {
-  key: fs.readFileSync('key.pem'),
-  cert: fs.readFileSync('cert.pem'),
+  key: fs.readFileSync('cert/key.pem'),
+  cert: fs.readFileSync('cert/cert.pem'),
   passphrase: '12345'
 };
 
