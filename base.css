@@ -84,7 +84,7 @@ ul.split > li {
 	display: block;
 	text-align: right;
 }
-#get-messageid {
+#get-messageid, #get-messageid2 {
 	width: 100%;
 }
 
