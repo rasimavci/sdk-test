@@ -729,21 +729,7 @@ if(args[0] === 1){
             self.unmuteCall()
             console.log('Peer1: unmute method called..');
         });
-
-        ///////////////////////////////////////////////////////////////////////////////////////
-        /////////Add methods to peer
-        ///////////////////////////////////////////////////////////////////////////////////////s
-        this.peer.connect().then(function () {
-            console.log('Peer1: connection to Daemon established');
-            //console.log('Peer Daemon Info: ', this.peer.daemonInfo);
-        });
-
-
-        this.peer.add(this.loginMethod).then(function () {
-            console.log('Peer: login method added')
-        }).catch(function (err) {
-            console.log('Peer: add login method failed', err);
-        });
+        
 
         ///////////////////////////////////////////////////////////////////////////////////////
         /////////Add methods to peer
