@@ -1056,7 +1056,7 @@ document.getElementById('createGroupConversation2').addEventListener('click', fu
 })
 
 document.getElementById('send-btn2').addEventListener('click', function () {
-  var message1 = document.getElementById('get-messageid').value
+  var message1 = document.getElementById('get-messageid2').value
   peer3.call('msg/imSend1', [message1,2]).then(function (result) {
     console.log('Instructor: send message success', result);
   }).catch(function (err) {
@@ -1073,9 +1073,9 @@ document.getElementById('clearmessage-btn2').addEventListener('click', function 
 })
 
 document.getElementById('updatemessage-btn2').addEventListener('click', function () {
-  var e = document.getElementById('messageProp');
+  var e = document.getElementById('messageProp2');
   var state = e.options[e.selectedIndex].value
-  var val = document.getElementById('messageProp-text').value;
+  var val = document.getElementById('messageProp-text2').value;
 
   peer3.call('msg/updateMessages1', [state, val,2]).then(function (result) {
     console.log('Instructor: update message success', result);
@@ -1110,7 +1110,7 @@ document.getElementById('unsubscribe-btn2').addEventListener('click', function (
 })
 
 document.getElementById('fetchmessages-btn2').addEventListener('click', function () {
-  var amount = document.getElementById('fetchAmount').value;
+  var amount = document.getElementById('fetchAmount2').value;
   peer3.call('msg/fetchMessages1', [amount,2]).then(function (result) {
     console.log('Instructor: fetch messages success', result);
   }).catch(function (err) {
