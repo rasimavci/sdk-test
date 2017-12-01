@@ -21,9 +21,9 @@ var ssl = {
   passphrase: '12345'
 };
 
- var options = {
-    port: 80
-  };
+var options = {
+  port: 80
+};
 
 
 // Create Webserver
@@ -60,6 +60,8 @@ var Message = function (title) {
   this.message = ''
   this.participants = []
   this.participant = ''
+  this.subscribe_orig = false
+  this.subscribe_term = false
 }
 
 Message.prototype.merge = function (other) {
@@ -78,24 +80,32 @@ Message.prototype.merge = function (other) {
     this.message_term = other.message_term
   }
 
-    if (other.message !== undefined) {
+  if (other.message !== undefined) {
     this.messages.push(other.message)
   }
 
-      if (other.messages_orig !== undefined) {
+  if (other.messages_orig !== undefined) {
     this.messages_orig = other.messages_orig
   }
 
-        if (other.messages_term !== undefined) {
+  if (other.messages_term !== undefined) {
     this.messages_term = other.messages_term
   }
 
-    if (other.participant !== undefined) {
+  if (other.participant !== undefined) {
     this.participants.push(other.participant)
   }
 
-    if (other.sender !== undefined) {
+  if (other.sender !== undefined) {
     this.sender = other.sender
+  }
+
+  if (other.subscribe_orig !== undefined) {
+    this.subscribe_orig = other.subscribe_orig
+  }
+
+  if (other.subscribe_term !== undefined) {
+    this.subscribe_term = other.subscribe_term
   }
 
 }
@@ -124,7 +134,7 @@ Login.prototype.merge = function (other) {
     this.isConnected2 = other.isConnected2
   }
 
-    if (other.isConnected3 !== undefined) {
+  if (other.isConnected3 !== undefined) {
     this.isConnected3 = other.isConnected3
   }
 }
@@ -170,7 +180,7 @@ var Call = function (title) {
   this.transfer = false
   this.callId = ''
   this.secondCall = false
-  this.directTransfer = false 
+  this.directTransfer = false
   this.transferSuccess = false
 }
 
@@ -183,7 +193,7 @@ Call.prototype.merge = function (other) {
     this.title = other.title
   }
 
-  
+
   if (other.state_orig !== undefined) {
     this.state_orig = other.state_orig
   }
@@ -209,92 +219,92 @@ Call.prototype.merge = function (other) {
 
   if (other.remotevideo_term !== undefined) {
     this.remotevideo_term = other.remotevideo_term
-  }  
+  }
 
 
-    if (other.job !== undefined) {
+  if (other.job !== undefined) {
     this.job = other.job
-  }  
+  }
 
-    if (other.to !== undefined) {
+  if (other.to !== undefined) {
     this.to = other.to
-  }  
+  }
 
-    if (other.from !== undefined) {
+  if (other.from !== undefined) {
     this.from = other.from
-  }  
+  }
 
-    if (other.mediaState_orig !== undefined) {
+  if (other.mediaState_orig !== undefined) {
     this.mediaState_orig = other.mediaState_orig
-  }  
+  }
 
-    if (other.mediaState_term !== undefined) {
+  if (other.mediaState_term !== undefined) {
     this.mediaState_term = other.mediaState_term
-  }  
+  }
 
-      if (other.presence_orig !== undefined) {
+  if (other.presence_orig !== undefined) {
     this.presence_orig = other.presence_orig
   }
 
-      if (other.presence_term !== undefined) {
+  if (other.presence_term !== undefined) {
     this.presence_term = other.presence_term
-  }  
- 
-       if (other.message_orig !== undefined) {
+  }
+
+  if (other.message_orig !== undefined) {
     this.message_orig = other.message_orig
   }
 
-      if (other.message_term !== undefined) {
+  if (other.message_term !== undefined) {
     this.message_term = other.message_term
-  }  
-       if (other.mute_orig !== undefined) {
+  }
+  if (other.mute_orig !== undefined) {
     this.mute_orig = other.presence_orig
   }
 
-      if (other.mute_term !== undefined) {
+  if (other.mute_term !== undefined) {
     this.mute_term = other.presence_term
-  }  
-         if (other.screenshare_orig !== undefined) {
+  }
+  if (other.screenshare_orig !== undefined) {
     this.screenshare_orig = other.screenshare_orig
   }
-      if (other.screenshare_term !== undefined) {
+  if (other.screenshare_term !== undefined) {
     this.screenshare_term = other.screenshare_term
-  }  
-           if (other.call_orig !== undefined) {
+  }
+  if (other.call_orig !== undefined) {
     this.call_orig = other.call_orig
   }
-      if (other.call_term !== undefined) {
+  if (other.call_term !== undefined) {
     this.call_term = other.call_term
-  }  
-      if (other.result !== undefined) {
+  }
+  if (other.result !== undefined) {
     this.result = other.result
-  }  
+  }
 
-        if (other.result2 !== undefined) {
+  if (other.result2 !== undefined) {
     this.result2 = other.result2
-  }  
-        if (other.result3 !== undefined) {
+  }
+  if (other.result3 !== undefined) {
     this.result3 = other.result3
-  }    
-        if (other.transfer !== undefined) {
+  }
+  if (other.transfer !== undefined) {
     this.transfer = other.transfer
- }  
-         if (other.callId !== undefined) {
+  }
+  if (other.callId !== undefined) {
     this.callId = other.callId
-  } 
+  }
 
-         if (other.secondCall !== undefined) {
+  if (other.secondCall !== undefined) {
     this.secondCall = other.secondCall
-  } 
+  }
 
-         if (other.directTransfer !== undefined) {
+  if (other.directTransfer !== undefined) {
     this.directTransfer = other.directTransfer
-  } 
-         if (other.transferSuccess !== undefined) {
+  }
+  if (other.transferSuccess !== undefined) {
     this.transferSuccess = other.transferSuccess
-  } 
-  
-  
+  }
+
+
 }
 
 // Create Jet Peer
@@ -379,11 +389,11 @@ removeCall.on('call', function (ids) {
 var clearCompletedCalls = new jet.Method('call/clearCompleted')
 clearCompletedCalls.on('call', function () {
   Object.keys(callStates).forEach(function (id) {
-//    if (callStates[id].value().completed) {
-      callStates[id].remove()
-      delete callStates[id]
-      callId = 0;
-  //  }
+    //    if (callStates[id].value().completed) {
+    callStates[id].remove()
+    delete callStates[id]
+    callId = 0;
+    //  }
   })
 })
 
@@ -404,7 +414,7 @@ setCompleted.on('call', function (args) {
 jet.Promise.all([
   peer.connect(),
   peer.add(addMessage),
-  peer.add(addLogin), 
+  peer.add(addLogin),
   peer.add(addCall),
   peer.add(removeCall),
   peer.add(setCompleted),
