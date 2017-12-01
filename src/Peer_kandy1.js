@@ -468,17 +468,17 @@ class Peer_kandy1 {
 
         this.consultativeTransferMethod = new jet.Method('call/consultativeTransfer1');
         this.consultativeTransferMethod.on('call', function (args) {
-/*
-            self.peer.get({ path: { equals: 'call/#0' } }).then(function (results) {
-                firstCallId = results[0].value.callId
-            });
-
-          self.peer.get({ path: { equals: 'call/#1' } }).then(function (results) {
-                secondCallId = results[0].value.callId
-            });
-*/
+            /*
+                        self.peer.get({ path: { equals: 'call/#0' } }).then(function (results) {
+                            firstCallId = results[0].value.callId
+                        });
+            
+                      self.peer.get({ path: { equals: 'call/#1' } }).then(function (results) {
+                            secondCallId = results[0].value.callId
+                        });
+            */
             console.log('Peer1: consultativeTransfer method called..');
-            self.consultativeTransfer(firstCallId,secondCallId)
+            self.consultativeTransfer(firstCallId, secondCallId)
 
 
 
@@ -497,7 +497,7 @@ class Peer_kandy1 {
                 });
         });
 
-    this.fetchConversationMethod = new jet.Method('msg/fetchConversation1');
+        this.fetchConversationMethod = new jet.Method('msg/fetchConversation1');
         this.fetchConversationMethod.on('call', function (args) {
             console.log('Peer1: fetchConversationMethod method called..');
             self.fetchConversations()
@@ -512,18 +512,19 @@ class Peer_kandy1 {
         this.createConversationMethod = new jet.Method('msg/createConversation1');
         this.createConversationMethod.on('call', function (args) {
             console.log('Peer1: create/getConversation(currentConvo1) method called..');
-            if(args[1] === 1){
+            if (args[1] === 1) {
                 participant1 = args[0];
-            currentConvo1 = self.getConversation(args[0])
-            currentConvo1Exist = true
-        var id = 0}
-            else if(args[1] === 2){
+                currentConvo1 = self.getConversation(args[0])
+                currentConvo1Exist = true
+                var id = 0
+            }
+            else if (args[1] === 2) {
                 participant2 = args[0];
-            currentConvo2 = self.getConversation(args[0])
-            var id = 1    
-            currentConvo2Exist = true        
-        }
-            
+                currentConvo2 = self.getConversation(args[0])
+                var id = 1
+                currentConvo2Exist = true
+            }
+
             self.peer.call('msg/add', ['msg1'])
             self.peer.set('msg/#' + id, {
                 conversation_orig: true
@@ -539,11 +540,13 @@ class Peer_kandy1 {
             //then calling fcs.im.send function to send the IM
             //text = 'deneme'
             // Create the message object, passing in the text for the message.
-            if(args[1] === 1){
-            var message = currentConvo1.createMessage(args[0])}
+            if (args[1] === 1) {
+                var message = currentConvo1.createMessage(args[0])
+            }
 
-        else if(args[1] === 2){
-            var message = currentConvo2.createMessage(args[0])}
+            else if (args[1] === 2) {
+                var message = currentConvo2.createMessage(args[0])
+            }
             // Send the message!
             message.sendMessage();
 
@@ -573,26 +576,28 @@ class Peer_kandy1 {
         this.getMessagesMethod = new jet.Method('msg/getMessages1');
         this.getMessagesMethod.on('call', function (args) {
             console.log('Peer1: getMessagesMethod method called..');
-            if(args[0] === 1){
-            return currentConvo1.getMessages(args[0]);}
+            if (args[0] === 1) {
+                return currentConvo1.getMessages(args[0]);
+            }
 
-        if(args[0] === 2){
-            return currentConvo2.getMessages(args[0]);}
+            if (args[0] === 2) {
+                return currentConvo2.getMessages(args[0]);
+            }
 
         });
 
         this.subscribeMethod = new jet.Method('msg/subscribe1');
         this.subscribeMethod.on('call', function (args) {
             console.log('Peer1: subscribeMethod method called..');
-if(args[0] === 1){
-            currentConvo1.subscribe(function (messageObj) {
-                //console.log('Subscribe callback: ' + messageObj[0])
-                //  messageObj['oztemur@genband.com'].messages.forEach(function (message) {
-                //console.log(message.sender + ', ' + message.parts[0].text)
-                //})
-                console.log('Updated: ' + JSON.stringify(messageObj))
-            });
-}
+            if (args[0] === 1) {
+                currentConvo1.subscribe(function (messageObj) {
+                    //console.log('Subscribe callback: ' + messageObj[0])
+                    //  messageObj['oztemur@genband.com'].messages.forEach(function (message) {
+                    //console.log(message.sender + ', ' + message.parts[0].text)
+                    //})
+                    console.log('Updated: ' + JSON.stringify(messageObj))
+                });
+            }
 
         });
 
@@ -729,7 +734,7 @@ if(args[0] === 1){
             self.unmuteCall()
             console.log('Peer1: unmute method called..');
         });
-        
+
 
         ///////////////////////////////////////////////////////////////////////////////////////
         /////////Add methods to peer
@@ -932,7 +937,7 @@ if(args[0] === 1){
         }).catch(function (err) {
             console.log('Peer: add conferenceCallMethod failed', err);
         });
- this.peer.add(this.imSendMethod).then(function () {
+        this.peer.add(this.imSendMethod).then(function () {
             console.log('Peer: imSendMethod method added')
         }).catch(function (err) {
             console.log('Peer: imSendMethod failed', err);
@@ -1067,7 +1072,7 @@ if(args[0] === 1){
         var secondCall;
         var transferSuccess;
 
-        
+
         var updateCallList = function () {
 
             //updateCallListself() {
@@ -1080,12 +1085,12 @@ if(args[0] === 1){
                 console.log('caller Name: ' + call.callerName)
                 console.log('call id: ' + call.id)
 
-                  if (call.to === 'hguner@genband.com' ) {
+                if (call.to === 'hguner@genband.com') {
                     firstCallId = call.id;
                     self.peer.set('call/#' + 0, {
                         state_orig: call.state
                     })
-                  }
+                }
 
 
                 return call.state !== 'ENDED'; //'ON_HOLD'; 
@@ -1093,34 +1098,34 @@ if(args[0] === 1){
             });
 
 
-/*
-            if (secondCall) {
-                self.peer.get({ path: { equals: 'call/#1' } }).then(function (results) {
-                    callId2 = results[0].value.callId
-                    secondCallId = results[0].value.callId
+            /*
+                        if (secondCall) {
+                            self.peer.get({ path: { equals: 'call/#1' } }).then(function (results) {
+                                callId2 = results[0].value.callId
+                                secondCallId = results[0].value.callId
+                            });
+            
+                        }
+            */
+            calls.forEach(function (call) {
+                self.peer.get({ path: { equals: 'call/#0' } }).then(function (results) {
+                    // console.log('peer1 sonuc:' + results[0].value.secondCall)
+                    secondCall = results[0].value.secondCall
+                    transferSuccess = results[0].value.transferSuccess
+                    // callId1 = results[0].value.callId
                 });
 
-            }
-*/
-           calls.forEach(function (call) {
-            self.peer.get({ path: { equals: 'call/#0' } }).then(function (results) {
-                // console.log('peer1 sonuc:' + results[0].value.secondCall)
-                secondCall = results[0].value.secondCall
-                transferSuccess = results[0].value.transferSuccess
-               // callId1 = results[0].value.callId
+                console.log(call.to)
+                console.log(call.id)
+                console.log(call.state)
             });
 
-console.log(call.to)
-console.log(call.id)
-console.log(call.state)
-           });
+
+            calls.forEach(function (call) {
 
 
-           calls.forEach(function (call) {
-
-
-                  if (call.to === 'hguner@genband.com' ) {
-               // if (secondCall && call.id === callId2) {
+                if (call.to === 'hguner@genband.com') {
+                    // if (secondCall && call.id === callId2) {
 
                     firstCallId = call.id;
                     self.peer.set('call/#' + 0, {
@@ -1132,26 +1137,26 @@ console.log(call.state)
                     })
 
                 }
-/*
-                  if (transferSuccess) {
-                    self.peer.set('call/#' + 1, {
-                        state_orig: call.state
-                    })
-                }
-*/
+                /*
+                                  if (transferSuccess) {
+                                    self.peer.set('call/#' + 1, {
+                                        state_orig: call.state
+                                    })
+                                }
+                */
                 //else { 
-              //  if (call.id === secondCallId) {
-                    if (call.to === 'oztemur@genband.com') { //secondCall || 
+                //  if (call.id === secondCallId) {
+                if (call.to === 'oztemur@genband.com') { //secondCall || 
                     self.peer.set('call/#' + 1, {
                         state_orig: call.state
                     })
 
                     secondCallId = call.id;
-                 /*   
-                    self.peer.set('call/#' + 1, {
-                        callId: call.id
-                    })
-*/
+                    /*   
+                       self.peer.set('call/#' + 1, {
+                           callId: call.id
+                       })
+   */
 
                 }
 
@@ -1271,25 +1276,25 @@ console.log(call.state)
             console.log('media Changed')
             console.log('callId: ' + callId)
             console.log('mediaState: ' + mediaState)
-if(mediaState){
-            self.peer.get({ path: { equals: 'call/#0' } }).then(function (results) {
-                //   console.log('peer1 sonuc:' + results[0].value.secondCall)
-                callId1 = results[0].value.callId
-                secondCall = results[0].value.secondCall
-            });
+            if (mediaState) {
+                self.peer.get({ path: { equals: 'call/#0' } }).then(function (results) {
+                    //   console.log('peer1 sonuc:' + results[0].value.secondCall)
+                    callId1 = results[0].value.callId
+                    secondCall = results[0].value.secondCall
+                });
 
-            if (callId1 === callId) {
-                self.peer.set('call/#' + 0, {
-                    mediaState_orig: mediaState
-                })
-            }
+                if (callId1 === callId) {
+                    self.peer.set('call/#' + 0, {
+                        mediaState_orig: mediaState
+                    })
+                }
 
-            else if (secondCall === true) {
-                self.peer.set('call/#' + 1, {
-                    mediaState_orig: mediaState
-                })
+                else if (secondCall === true) {
+                    self.peer.set('call/#' + 1, {
+                        mediaState_orig: mediaState
+                    })
+                }
             }
-        }
         });
         kandy.on('localVideo:change', function (displaying) {
             self.peer.set('call/#' + id, {
@@ -1319,41 +1324,43 @@ if(mediaState){
             })
         });
 
-       kandy.on('messages:new', function () {
+        kandy.on('messages:new', function () {
             console.log('Message received.')
 
             //var currentUser = kandy.getUserInfo().username;
-            let id = '0'
-            // TODO make it more simple
-            let msgArray = currentConvo1.getMessages()
-            self.peer.set('msg/#' + id, {
-                messages_orig: msgArray
-            })       
+            if (currentConvo1Exist) {
+                let id = '0'
+                // TODO make it more simple
+                let msgArray = currentConvo1.getMessages()
+                self.peer.set('msg/#' + id, {
+                    messages_orig: msgArray
+                })
+            }
 
-if(currentConvo2Exist){
-            id = '1'
-            // TODO make it more simple
-            let msgArray2 = currentConvo2.getMessages()
-            self.peer.set('msg/#' + id, {
-                messages_orig: msgArray2
-            })  
-       }
+            if (currentConvo2Exist) {
+                id = '1'
+                // TODO make it more simple
+                let msgArray2 = currentConvo2.getMessages()
+                self.peer.set('msg/#' + id, {
+                    messages_orig: msgArray2
+                })
+            }
 
         });
         kandy.on('conversations:new', function () {
-           // let msgArray = currentConvo1.getMessages()
-if(currentConvo1Exist === false){
-            self.peer.set('msg/#0', {
-                conversation_orig: true
-            })
-            //currentConvo1Exist = true
-}
-else if (currentConvo2Exist === false){
-            self.peer.set('msg/#1', {
-                conversation_orig: true
-            })
-          //  currentConvo2Exist = true
-}
+            // let msgArray = currentConvo1.getMessages()
+            if (currentConvo1Exist === false) {
+                self.peer.set('msg/#0', {
+                    conversation_orig: true
+                })
+                //currentConvo1Exist = true
+            }
+            else if (currentConvo2Exist === false) {
+                self.peer.set('msg/#1', {
+                    conversation_orig: true
+                })
+                //  currentConvo2Exist = true
+            }
 
             console.log('Peer1: new conversation received.')
         });
@@ -1526,14 +1533,14 @@ else if (currentConvo2Exist === false){
 
     holdCall(callNo) {
         if (callNo === 1) {
-             kandy.holdCall(firstCallId);
-          //  var callId = firstCallId; //getSelectedCall();
+            kandy.holdCall(firstCallId);
+            //  var callId = firstCallId; //getSelectedCall();
         }
         else {
             kandy.holdCall(secondCallId);
-          //  var callId = secondCallId; //getSelectedCall();
+            //  var callId = secondCallId; //getSelectedCall();
         }
-        
+
     }
 
 
@@ -1678,7 +1685,7 @@ else if (currentConvo2Exist === false){
      *      the join operation.
      */
 
-    consultativeTransfer(firstCallId,destination) {
+    consultativeTransfer(firstCallId, destination) {
         /*
         if (step === 'select') {
             transferCallOne = firstCallId; //getSelectedCall();
