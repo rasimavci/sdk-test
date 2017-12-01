@@ -16,6 +16,7 @@ To build and run this project run:
 git clone git@github.com:rasimavci/sdk-test.git
 cd sdk-test
 npm install
+npm link Kandy-js
 npm run build
 npm start 8090
 ```
