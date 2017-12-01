@@ -35,21 +35,24 @@
         <button id="set-title" style="display: block">Set Title</button>
     </p>
 
-    
+
     <p>
         <b>
-            <label id="labelPeer1">Peer Connections</label></b></p>
-            <p>
-            Peer1 isConnected: <label id="auth-status1">false</label> |
-            Peer2 isConnected: <label id="auth-status2">false</label> |
-            Peer3 isConnected: <label id="auth-status3">false</label>
-        
+            <label id="labelPeer1">Peer Connections</label>
+        </b>
+    </p>
+    <p>
+        Peer1 isConnected:
+        <label id="auth-status1">false</label> | Peer2 isConnected:
+        <label id="auth-status2">false</label> | Peer3 isConnected:
+        <label id="auth-status3">false</label>
+
     </p>
 
-       <hr>
-            <b>
-                <label id="labelPeer1">Peer 1</label>
-            </b>
+    <hr>
+    <b>
+        <label id="labelPeer1">Peer 1</label>
+    </b>
 
 
     <ul class="peers">
@@ -226,7 +229,7 @@
             <p>
                 <button id="holdAfterTransfer-btn">Hold After Transfer</button> |
                 <button id="unholdAfterTransfer-btn">Unhold After Transfer</button>
-</p>
+            </p>
             <p>
                 <button id="videostart-btn">Video Start</button> |
                 <button id="videostop-btn">Video Stop</button> |
@@ -296,8 +299,8 @@
                 <label id="labelIncomingCall1">Incoming Call</label>
             </b>
             <p>
-                                <button id="answer-btn">Answer</button>
-                                <button id="reject-btn">Reject</button> |
+                <button id="answer-btn">Answer</button>
+                <button id="reject-btn">Reject</button> |
                 <button id="ignore-btn">Ignore</button>
             </p>
 
@@ -427,61 +430,63 @@
                 <button id="answer-btn3">Answer</button>
             </p>
 
-<button id="getresult-btn">Get Result</button>
+            <button id="getresult-btn">Get Result</button>
 
 
         </li>
     </ul>
 
     <hr>
-<b><label id="labelTest">Tests</label></b>
-            <p>
-                <button id="loginall-btn">Login Users</button> |
-                <button id="logoutall-btn">Logout Users</button>
-                               </p> 
-<p>               
-                <button id="basicCallTest-btn">Basic Call Test</button> |
-            <button id="basicCallTest2-btn">2 Call Test</button> |
-              <button id="basicCallTest3-btn">Switch Call Test</button> |
-                         </p> 
-<p>       
-                 <button id="testHoldUnhold-btn">Hold Unhold</button> |
-                 <button id="testMuteUnmute-btn">Mute Unmute</button> |
-                 <button id="testdualHold-btn">Dual Hold</button> |
-                 <button id="testGlareHold-btn">Glare Condition</button>
-            </p>
-<p>
-                <button id="testVideoCall-btn">Test Video Call</button> |
-                <button id="test2WVideoCall-btn">Test 2-Way Video Call</button> |
-                 <button id="testVideoEscalation-btn">Test Video Escalation</button> |
-                 <button id="testVideoStopStart-btn">Test Video Stop Start</button> |
-                </p> 
-<p>
-                <button id="testDirectTransfer-btn">Test Direct Transfer</button> |
-                <button id="testDirectTransferVideo-btn">Test Direct Transfer Video</button> |
-                <button id="testConsTransfer-btn">Consultative Transfer Test</button> |
-               <button id="testMerge-btn">3WC Test</button> |
-<button id="testState-btn">Get State</button>
-               
-</p>
-<p>
-    <button id="testHoldUnholdAfterTransfer-btn">Test Hold Unhold After Transfer</button> |
-                 <button id="testHoldUnhold2-btn">Test Video Start After Hold Unhold</button> |
-</p>
-        <div class='content column'>
-            <div>
-                Remote Video:
-                <div id='remote-container' class='video-box'></div>
-            </div>
-            <div>
-                Local Video:
-                <div id='local-container' class='video-box'></div>
-            </div>
+    <b>
+        <label id="labelTest">Tests</label>
+    </b>
+    <p>
+        <button id="loginall-btn">Login Users</button> |
+        <button id="logoutall-btn">Logout Users</button>
+    </p>
+    <p>
+        <button id="basicCallTest-btn">Basic Call Test</button> |
+        <button id="basicCallTest2-btn">2 Call Test</button> |
+        <button id="basicCallTest3-btn">Switch Call Test</button> |
+    </p>
+    <p>
+        <button id="testHoldUnhold-btn">Hold Unhold</button> |
+        <button id="testMuteUnmute-btn">Mute Unmute</button> |
+        <button id="testdualHold-btn">Dual Hold</button> |
+        <button id="testGlareHold-btn">Glare Condition</button>
+    </p>
+    <p>
+        <button id="testVideoCall-btn">Test Video Call</button> |
+        <button id="test2WVideoCall-btn">Test 2-Way Video Call</button> |
+        <button id="testVideoEscalation-btn">Test Video Escalation</button> |
+        <button id="testVideoStopStart-btn">Test Video Stop Start</button> |
+    </p>
+    <p>
+        <button id="testDirectTransfer-btn">Test Direct Transfer</button> |
+        <button id="testDirectTransferVideo-btn">Test Direct Transfer Video</button> |
+        <button id="testConsTransfer-btn">Consultative Transfer Test</button> |
+        <button id="testMerge-btn">3WC Test</button> |
+        <button id="testState-btn">Get State</button>
+
+    </p>
+    <p>
+        <button id="testHoldUnholdAfterTransfer-btn">Test Hold Unhold After Transfer</button> |
+        <button id="testHoldUnhold2-btn">Test Video Start After Hold Unhold</button> |
+    </p>
+    <div class='content column'>
+        <div>
+            Remote Video:
+            <div id='remote-container' class='video-box'></div>
         </div>
+        <div>
+            Local Video:
+            <div id='local-container' class='video-box'></div>
+        </div>
+    </div>
     <footer id="info">
 
     </footer>
-      
+
     <!--
     <script src='../../../compat/examples/autoFill.js'></script>
     <script src='kandy.onprem.js'></script>
