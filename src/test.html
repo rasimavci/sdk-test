@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>API tests</title>
+  <link rel="stylesheet" media="all" href="vendor/mocha.css">
+</head>
+<body>
+  
+  <div id="mocha"><p><a href=".">Index</a></p></div>
+  <div id="messages"></div>
+  <div id="fixtures"></div>
+    <script src="node_modules/mocha/mocha.js"></script>
+  <script src="node_modules/chai/chai.js"></script>
+  <script>mocha.setup('bdd')</script>
+<script src="bundle0.js"></script>
+  <script>mocha.run();</script>
+
+              <p>
+            Peer1 isConnected: <label id="auth-status1">false</label> |
+            Peer2 isConnected: <label id="auth-status2">false</label> |
+            Peer3 isConnected: <label id="auth-status3">false</label>
+        
+    </p>
+                <p>
+                <input id="username" type="text" placeholder="id" value="ravci@genband.com" size="12" />
+                <input id="password" type="text" placeholder="id" value="yjke9884" size="12" />
+                <input id="username1" type="text" placeholder="id" value="oztemur@genband.com" size="12" />
+                <input id="password1" type="text" placeholder="id" value="Genband.1234" size="12" />
+                <button id="login-btn">Login</button> |
+                <button id="logout-btn">Logout</button> |
+                <button id="end-btn">Logout</button>
+            </p>
+
+                   <p>
+                <input id="isAudioEnabled" type="checkbox" checked /> Audio Enabled
+                <input id="isVideoEnabled" type="checkbox" checked /> Video Enabled
+                <input id="sendInitialVideo" type="checkbox" /> Send Initial Video
+                <input id="sendScreenShare" type="checkbox" /> Send Screen Share
+                <input id="mediaSourceId" type="checkbox" /> Media Source Id
+            </p>
+
+                    <div class='content column'>
+            <div>
+                Remote Video:
+                <div id='remote-container' class='video-box'></div>
+            </div>
+            <div>
+                Local Video:
+                <div id='local-container' class='video-box'></div>
+            </div>
+        </div>
+</body>
+</html>
