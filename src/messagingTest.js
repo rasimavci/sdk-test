@@ -401,20 +401,13 @@ describe("Messaging Test Suite with third participant", function () {
   /*
   describe("Subscribe to conversation test", function () {
     this.timeout(15000);
-
     it("Subscribe callback should fired for participants", function (done) {
-
     });
-
   });
-
   describe("Unsubscribe to conversation test", function () {
     this.timeout(15000);
-
     it("Unsubscribe callback should fired for participants", function (done) {
-
     });
-
   });
   */
 
