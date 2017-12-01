@@ -10,7 +10,8 @@
     "build": "npm run build:bundle0 && npm run build:bundle2 && npm run build:bundle3",
     "build:bundle0": "browserify src/instructor.js > src/bundle0.js",
     "build:bundle2": "browserify src/client2.js > src/bundle2.js",
-    "build:bundle3": "browserify src/client3.js > src/bundle3.js"
+    "build:bundle3": "browserify src/client3.js > src/bundle3.js",
+    "build:bundle7": "browserify src/messagingTest.js > src/bundle7.js"
   },
   "author": "Rasim Avci",
   "license": "MIT",
