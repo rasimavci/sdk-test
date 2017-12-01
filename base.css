@@ -27,12 +27,84 @@ body {
 	background: #f5f5f5;
 	color: #4d4d4d;
 	min-width: 230px;
-	max-width: 550px;
+	max-width: 1050px;
 	margin: 0 auto;
 	-webkit-font-smoothing: antialiased;
 	-moz-font-smoothing: antialiased;
 	font-smoothing: antialiased;
 	font-weight: 300;
+}
+
+div.chatContainer {
+	position: relative;
+	height: 300px;
+	width: 100%;
+	border: 1px solid #c7c7c7;
+}
+div.chatContainer > div.chatField {
+	box-sizing: border-box;
+	height: 100%;
+	width: 100%;
+	padding: 20px;
+	overflow-y: auto;
+}
+
+div.chatContainer2 {
+	position: relative;
+	height: 300px;
+	width: 100%;
+	border: 1px solid #c7c7c7;
+}
+div.chatContainer2 > div.chatField2 {
+	box-sizing: border-box;
+	height: 100%;
+	width: 100%;
+	padding: 20px;
+	overflow-y: auto;
+}
+
+
+ul.split {
+	list-style-type: none;
+	padding: 0;
+	width: 100%;
+}
+ul.split > li {
+	float: left;
+	width: 50%;
+	box-sizing: border-box;
+	vertical-align: top;
+}
+.chatMessage1 {
+	padding: 5px;
+	display: block;
+}
+.chatMessage2 {
+	padding: 5px;
+	display: block;
+	text-align: right;
+}
+#get-messageid {
+	width: 100%;
+}
+
+button:not([class="destroy"]):hover {
+	cursor: pointer;
+}
+
+ul.peers {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+ul.peers li {
+	display: inline-block;
+	padding: 3px 10px;
+}
+
+ul.peers > li:first-child {
+	border-right: 1px solid rgb(204, 204, 204);
 }
 
 button,
@@ -44,7 +116,7 @@ input[type="checkbox"] {
 	display: none;
 }
 
-#todoapp {
+#callapp {
 	background: #fff;
 	margin: 130px 0 40px 0;
 	position: relative;
@@ -52,38 +124,45 @@ input[type="checkbox"] {
 	            0 25px 50px 0 rgba(0, 0, 0, 0.1);
 }
 
-#todoapp input::-webkit-input-placeholder {
+#callapp input::-webkit-input-placeholder {
 	font-style: italic;
 	font-weight: 300;
 	color: #e6e6e6;
 }
 
-#todoapp input::-moz-placeholder {
+#callapp input::-moz-placeholder {
 	font-style: italic;
 	font-weight: 300;
 	color: #e6e6e6;
 }
 
-#todoapp input::input-placeholder {
+#callapp input::input-placeholder {
 	font-style: italic;
 	font-weight: 300;
 	color: #e6e6e6;
 }
 
-#todoapp h1 {
+#callapp h1 {
 	position: absolute;
 	top: -155px;
 	width: 100%;
-	font-size: 100px;
+	font-size: 2em;
 	font-weight: 100;
 	text-align: center;
-	color: rgba(175, 47, 47, 0.15);
+	color: rgba(175, 47, 47, 0.55);
 	-webkit-text-rendering: optimizeLegibility;
 	-moz-text-rendering: optimizeLegibility;
 	text-rendering: optimizeLegibility;
+
+	line-height: 135px;
 }
 
-#new-todo,
+ul#call-list > li > div > label:not(:first-child) {
+	font-size: 50%;
+	font-weight: bold;
+}
+
+#new-call,
 .edit {
 	position: relative;
 	margin: 0;
@@ -104,7 +183,7 @@ input[type="checkbox"] {
 	font-smoothing: antialiased;
 }
 
-#new-todo {
+#new-call {
 	padding: 16px 16px 16px 60px;
 	border: none;
 	background: rgba(0, 0, 0, 0.003);
@@ -129,6 +208,7 @@ label[for='toggle-all'] {
 	height: 34px;
 	text-align: center;
 	border: none; /* Mobile Safari */
+	display: none;
 }
 
 #toggle-all:before {
@@ -142,39 +222,39 @@ label[for='toggle-all'] {
 	color: #737373;
 }
 
-#todo-list {
+#call-list {
 	margin: 0;
 	padding: 0;
 	list-style: none;
 }
 
-#todo-list li {
+#call-list li {
 	position: relative;
 	font-size: 24px;
 	border-bottom: 1px solid #ededed;
 }
 
-#todo-list li:last-child {
+#call-list li:last-child {
 	border-bottom: none;
 }
 
-#todo-list li.editing {
+#call-list li.editing {
 	border-bottom: none;
 	padding: 0;
 }
 
-#todo-list li.editing .edit {
+#call-list li.editing .edit {
 	display: block;
 	width: 506px;
 	padding: 13px 17px 12px 17px;
 	margin: 0 0 0 43px;
 }
 
-#todo-list li.editing .view {
+#call-list li.editing .view {
 	display: none;
 }
 
-#todo-list li .toggle {
+#call-list li .toggle {
 	text-align: center;
 	width: 40px;
 	/* auto, since non-WebKit browsers doesn't support input styling */
@@ -188,15 +268,32 @@ label[for='toggle-all'] {
 	appearance: none;
 }
 
-#todo-list li .toggle:after {
-	content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="-10 -18 100 135"><circle cx="50" cy="50" r="50" fill="none" stroke="#ededed" stroke-width="3"/></svg>');
+#call-list li .toggle:checked:after { /* TODO */
+	content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="-10 -18 100 135"><circle cx="50" cy="50" r="50" fill="none" stroke="#ededed" stroke-width="3"/><path stroke-width="6" stroke="#c25d5d" d="M 25,25 L 75,75 M 75,25 L 25,75"/></svg>');
 }
 
-#todo-list li .toggle:checked:after {
+#call-list li .toggle:after {
 	content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="-10 -18 100 135"><circle cx="50" cy="50" r="50" fill="none" stroke="#bddad5" stroke-width="3"/><path fill="#5dc2af" d="M72 25L42 71 27 56l-4 4 20 20 34-52z"/></svg>');
 }
 
-#todo-list li label {
+div.peer-first {
+	position: relative;
+	float: left;
+	width: 50%;
+
+	border-right: 1px solid #d2d2d2;
+    box-sizing: border-box;
+}
+div.peer-second {
+	position: relative;
+	float: right;
+	width: 50%;
+}
+div.clear-both {
+	clear: both;
+}
+
+#call-list li label {
 	white-space: pre;
 	word-break: break-word;
 	padding: 15px 60px 15px 15px;
@@ -206,12 +303,11 @@ label[for='toggle-all'] {
 	transition: color 0.4s;
 }
 
-#todo-list li.completed label {
+#call-list li.completed label {
 	color: #d9d9d9;
-	text-decoration: line-through;
 }
 
-#todo-list li .destroy {
+#call-list li .destroy {
 	display: none;
 	position: absolute;
 	top: 0;
@@ -226,23 +322,23 @@ label[for='toggle-all'] {
 	transition: color 0.2s ease-out;
 }
 
-#todo-list li .destroy:hover {
+#call-list li .destroy:hover {
 	color: #af5b5e;
 }
 
-#todo-list li .destroy:after {
+#call-list li .destroy:after {
 	content: '×';
 }
 
-#todo-list li:hover .destroy {
+#call-list li:hover .destroy {
 	display: block;
 }
 
-#todo-list li .edit {
+#call-list li .edit {
 	display: none;
 }
 
-#todo-list li.editing:last-child {
+#call-list li.editing:last-child {
 	margin-bottom: -1px;
 }
 
@@ -262,19 +358,21 @@ label[for='toggle-all'] {
 	left: 0;
 	height: 50px;
 	overflow: hidden;
+	/*
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2),
 	            0 8px 0 -3px #f6f6f6,
 	            0 9px 1px -3px rgba(0, 0, 0, 0.2),
 	            0 16px 0 -6px #f6f6f6,
-	            0 17px 2px -6px rgba(0, 0, 0, 0.2);
+				0 17px 2px -6px rgba(0, 0, 0, 0.2);
+	*/
 }
 
-#todo-count {
+#call-count {
 	float: left;
 	text-align: left;
 }
 
-#todo-count strong {
+#call-count strong {
 	font-weight: 300;
 }
 
@@ -351,11 +449,11 @@ html #clear-completed:active {
 */
 @media screen and (-webkit-min-device-pixel-ratio:0) {
 	#toggle-all,
-	#todo-list li .toggle {
+	#call-list li .toggle {
 		background: none;
 	}
 
-	#todo-list li .toggle {
+	#call-list li .toggle {
 		height: 40px;
 	}
 
@@ -375,4 +473,8 @@ html #clear-completed:active {
 	#filters {
 		bottom: 10px;
 	}
+}
+
+.callId  {
+	font-size: 14px;
 }
