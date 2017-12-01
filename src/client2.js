@@ -80,21 +80,21 @@ var msgObj = new jet.Fetcher()
       chatObj.innerHTML = ''
       msgArray.forEach(function (msg) {
 
-      var url = msg.parts[0].url;
+        var url = msg.parts[0].url;
         var msgLabel = document.createElement('label');
         msgLabel.className = 'chatMessage' + (loginId == msg.sender ? '1' : '2');
 
-      if(url){
-      accessToken = kandy.getUserInfo().token;
+        if (url) {
+          accessToken = kandy.getUserInfo().token;
 
-      // Append the access token to the end of the url.
-      // This ensures our request for the file is authenticated.
-      url = url + accessToken;
-      msgLabel.innerHTML = '<i>' + msg.sender + '</i><br>' + url
-    }  
-else {
-        msgLabel.innerHTML = '<i>' + msg.sender + '</i><br>' + msg.parts[0].text
-}
+          // Append the access token to the end of the url.
+          // This ensures our request for the file is authenticated.
+          url = url + accessToken;
+          msgLabel.innerHTML = '<i>' + msg.sender + '</i><br>' + url
+        }
+        else {
+          msgLabel.innerHTML = '<i>' + msg.sender + '</i><br>' + msg.parts[0].text
+        }
         chatObj.appendChild(msgLabel);
       })
     }
@@ -169,7 +169,7 @@ var renderCall = function (call) {
   view.appendChild(localvideo)
   view.appendChild(remotevideo)
   view.appendChild(presence_orig)
-    view.appendChild(result)
+  view.appendChild(result)
   // ----------------- PEER#1! ----------------------
 
 
@@ -184,7 +184,7 @@ var renderCall = function (call) {
     self.setCallCompleted(call.value.id, !call.value.completed)
   })
 
-var call_term = document.createElement('label')
+  var call_term = document.createElement('label')
   var toggleState1 = document.createElement('label')
   var toggleState2 = document.createElement('label')
   var localvideo = document.createElement('label')
@@ -193,7 +193,7 @@ var call_term = document.createElement('label')
   var presence_term = document.createElement('label')
 
 
-call_term.innerHTML = 'Call: ' + call.value.call_term
+  call_term.innerHTML = 'Call: ' + call.value.call_term
   toggleState1.innerHTML = 'Call State: ' + call.value.state_term
   mediaState_term.innerHTML = 'Media State: ' + call.value.mediaState_term
   localvideo.innerHTML = 'Local Video: ' + call.value.localvideo_term
@@ -391,22 +391,22 @@ var renderCalls = function (callObj) {
 
 }
 
-function waitResult(){
-                 var id = setInterval(function () {
+function waitResult() {
+  var id = setInterval(function () {
 
-                 peerClient2.get({path: {equals: 'call/#0'}}).then(function (results) {
-                   console.log('sonuc:' + results[0].value.result2)
-                   let condition = results[0].value.result2
+    peerClient2.get({ path: { equals: 'call/#0' } }).then(function (results) {
+      console.log('sonuc:' + results[0].value.result2)
+      let condition = results[0].value.result2
 
-                   if (condition === 'incomingCall') {
-                     // stop interval clearInteva
-                     //resolve();
-                   //  peerClient2.call('call/answerCall2', ['empty']);
-                     (clearInterval(id))
-                   }
-                 });
+      if (condition === 'incomingCall') {
+        // stop interval clearInteva
+        //resolve();
+        //  peerClient2.call('call/answerCall2', ['empty']);
+        (clearInterval(id))
+      }
+    });
 
-               }, 1000);
+  }, 1000);
 }
 
 function clickToggleAll() {
@@ -463,7 +463,7 @@ document.getElementById('login-btn').addEventListener('click', function () {
 
 //function loginBtn(loginId) {
 document.getElementById('login-btn2').addEventListener('click', function () {
-loginId = document.getElementById('username2').value
+  loginId = document.getElementById('username2').value
   var loginPWD = document.getElementById('password2').value
 
   console.log('login ID: ', loginId);
@@ -496,18 +496,18 @@ document.getElementById('logout-btn').addEventListener('click', function () {
 //function loginBtn(loginId) {
 document.getElementById('call-btn').addEventListener('click', function () {
   var caller = document.getElementById('username').value
-    var callee = document.getElementById('callee').value
-    var options = {
-        
-        isAudioEnabled: document.getElementById('isAudioEnabled').checked,
-        isVideoEnabled: document.getElementById('isVideoEnabled').checked,
-        sendInitialVideo: document.getElementById('sendInitialVideo').checked,
-        sendScreenShare: document.getElementById('sendScreenShare').checked,
-        localVideoContainer: document.getElementById('local-container'),
-        remoteVideoContainer: document.getElementById('remote-container')
-    };
+  var callee = document.getElementById('callee').value
+  var options = {
 
-    peerClient2.call('call/makeCall2', [callee, options]).then(function (result) {
+    isAudioEnabled: document.getElementById('isAudioEnabled').checked,
+    isVideoEnabled: document.getElementById('isVideoEnabled').checked,
+    sendInitialVideo: document.getElementById('sendInitialVideo').checked,
+    sendScreenShare: document.getElementById('sendScreenShare').checked,
+    localVideoContainer: document.getElementById('local-container'),
+    remoteVideoContainer: document.getElementById('remote-container')
+  };
+
+  peerClient2.call('call/makeCall2', [callee, options]).then(function (result) {
     console.log('Instructor: started call to : ' + callee, result);
   }).catch(function (err) {
     console.log('Instructor: start call on peer1 failed', err);
@@ -519,9 +519,9 @@ document.getElementById('call-btn').addEventListener('click', function () {
     console.log('Instructor: could not call add method', err);
   });
 
-    peerClient2.set('call/#' + id, {
-      from: caller
-    })
+  peerClient2.set('call/#' + id, {
+    from: caller
+  })
 
   let id = 0;
   peerClient2.set('call/#' + id, {
