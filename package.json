@@ -3,14 +3,14 @@
   "subdomain": "sdk",
   "version": "1.0.0",
   "description": "KATE  - Kandy Automation Test Environment",
-  "main": "sdktest-server.js",
+  "main": "src/sdktest-server.js",
   "scripts": {
     "test": "mocha --verbose",
     "start": "node src/sdktest-server.js",
     "build": "npm run build:bundle0 && npm run build:bundle2 && npm run build:bundle3",
-    "build:bundle0": "browserify src/instructor.js > src/bundle0.js",
-    "build:bundle2": "browserify src/client2.js > src/bundle2.js",
-    "build:bundle3": "browserify src/client3.js > src/bundle3.js"
+    "build:bundle0": "browserify src/instructor.js > bundle0.js",
+    "build:bundle2": "browserify src/client2.js > bundle2.js",
+    "build:bundle3": "browserify src/client3.js > bundle3.js"
   },
   "author": "Rasim Avci",
   "license": "MIT",
