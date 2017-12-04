@@ -70,9 +70,11 @@ var loginObj = new jet.Fetcher()
 
 peer3.fetch(loginObj)
 
+
+//############ MESSAGE ############//
 var chatObj = document.getElementsByClassName('chatField')[0];
 var chatObj2 = document.getElementsByClassName('chatField2')[0];
-//############ MESSAGE ############//
+
 var msgObj = new jet.Fetcher()
   .path('startsWith', 'msg/#')
   .sortByKey('id', 'number')
@@ -106,6 +108,19 @@ var msgObj = new jet.Fetcher()
   })
 
 peer3.fetch(msgObj)
+
+
+// PresenceObj
+/*
+var presenceObj = new jet.Fetcher()
+  .path('startsWith', 'presence/#')
+  .sortByKey('id', 'number')
+  .range(1, 30)
+  .on('data', function (presenceObj) {
+    
+  })
+peer3.fetch(presenceObj)
+*/
 
 
 var callObj = new jet.Fetcher()
@@ -786,18 +801,6 @@ document.getElementById('setstate-btn').addEventListener('click', function (even
   event.preventDefault()
 })
 
-document.getElementById('setpresence-btn').addEventListener('click', function (event) {
-  var e = document.getElementById('presence-states');
-  var state = e.options[e.selectedIndex].value
-
-  peer3.call('call/setPresence1', [state]).then(function (result) {
-    console.log('Instructor: set presence success', result);
-  }).catch(function (err) {
-    console.log('Instructor: set presence failed', err);
-  });
-
-})
-
 document.getElementById('getaddressbook-btn').addEventListener('click', function (event) {
   peer3.call('call/getAddrBook1', ['empty']).then(function (result) {
     console.log('Instructor: getAddrBook success', result);
@@ -911,8 +914,62 @@ document.getElementById('getUserProfileData-btn').addEventListener('click', func
   }).catch(function (err) {
     console.log('Instructor: getUserProfileData failed', err);
   });
-
 })
+
+
+///////////////////////////////////////////PRESENCE 1 /////////////////////////////////
+document.getElementById('setpresence-btn').addEventListener('click', function (event) {
+  var e = document.getElementById('presence-states');
+  var state = e.options[e.selectedIndex].value
+  var note = document.getElementById('presence-note').value;
+
+  peer3.call('presence/setPresence1', [state, note]).then(function (result) {
+    console.log('Instructor: set presence success', result);
+  }).catch(function (err) {
+    console.log('Instructor: set presence failed', err);
+  });
+})
+document.getElementById('get-btn').addEventListener('click', function (event) {
+  var presenceId = document.getElementById('get-presence').value
+  peer3.call('presence/getPresence1', [presenceId]).then(function (result) {
+    console.log('Instructor: getPresence success', result);
+  }).catch(function (err) {
+    console.log('Instructor: getPresence failed', err);
+  });
+})
+document.getElementById('get-btn2').addEventListener('click', function (event) {
+  var presenceId = document.getElementById('get-presence2').value
+  peer3.call('presence/getPresence1', [presenceId]).then(function (result) {
+    console.log('Instructor: getPresence success', result);
+  }).catch(function (err) {
+    console.log('Instructor: getPresence failed', err);
+  });
+})
+document.getElementById('fetchPresence-btn').addEventListener('click', function (event) {
+  var presenceId = document.getElementById('get-presence').value
+  peer3.call('presence/fetchPresence1', [presenceId]).then(function (result) {
+    console.log('Instructor: fetchPresence success', result);
+  }).catch(function (err) {
+    console.log('Instructor: fetchPresence failed', err);
+  });
+})
+document.getElementById('subPresence-btn').addEventListener('click', function (event) {
+  var presenceId = document.getElementById('get-presence').value
+  peer3.call('presence/subscribePresence1', [presenceId]).then(function (result) {
+    console.log('Instructor: subscribePresence success', result);
+  }).catch(function (err) {
+    console.log('Instructor: subscribePresence failed', err);
+  });
+})
+document.getElementById('unsubPresence-btn').addEventListener('click', function (event) {
+  var presenceId = document.getElementById('get-presence').value
+  peer3.call('presence/unsubscribePresence1', [presenceId]).then(function (result) {
+    console.log('Instructor: unsubscribePresence success', result);
+  }).catch(function (err) {
+    console.log('Instructor: unsubscribePresence failed', err);
+  });
+})
+///////////////////////////////////////////PRESENCE 1 /////////////////////////////////
 
 /*
     let id = 0;
