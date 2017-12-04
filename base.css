@@ -101,6 +101,7 @@ ul.peers {
 ul.peers li {
 	display: inline-block;
 	padding: 3px 10px;
+	vertical-align: top;
 }
 
 ul.peers > li:first-child {
