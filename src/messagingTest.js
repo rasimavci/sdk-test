@@ -329,7 +329,7 @@ describe("Messaging Test Suite with third participant", function () {
   describe("Basic message test", function () {
     this.timeout(15000);
 
-    it("Third participant should send message to other participant", function (done) {
+    it("First participant should send message to other participant", function (done) {
       peer3.call('msg/imSend1', ['Hello Participant #3', 2])
         .then(() => {
           done();
