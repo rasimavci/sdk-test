@@ -36,83 +36,311 @@
     </p>
 
 
-    <p>
-        <b>
-            <label id="labelPeer1">Peer Connections</label>
-        </b>
-    </p>
-    <p>
+    <fieldset>
+        <legend>
+            <b>Authentication</b>
+        </legend>
         Peer1 isConnected:
         <label id="auth-status1">false</label> | Peer2 isConnected:
         <label id="auth-status2">false</label> | Peer3 isConnected:
         <label id="auth-status3">false</label>
-
-    </p>
-
-    <hr>
-    <b>
-        <label id="labelPeer1">Peer 1</label>
-    </b>
-
+    </fieldset>
+    <br />
 
     <ul class="peers">
         <li class="peer1">
-            <select id="call-states">
-                <option value="7">ANSWERING</option>
-                <option value="12">CALL_IN_PROGRESS</option>
-                <option value="13">EARLY_MEDIA</option>
-                <option value="3">ENDED</option>
-                <option value="6">INCOMING</option>
-                <option value="0">IN_CALL</option>
-                <option value="8">JOINED</option>
-                <option value="1">ON_HOLD</option>
-                <option value="11">ON_REMOTE_HOLD</option>
-                <option value="5">OUTGOING</option>
-                <option value="4">REJECTED</option>
-                <option value="9">RENEGOTIATION</option>
-                <option value="15">REPLACING</option>
-                <option value="2">RINGING</option>
-                <option value="10">TRANSFERRED</option>
-                <option value="14">TRANSFER_FAILURE</option>
-            </select>
-            <input id="get-id" type="text" placeholder="id" size="1" /> |
-            <button id="setstate-btn">Set State</button>
-            </p>
+            <b>
+                <label id="labelPeer1">Peer 1</label>
+            </b>
 
-            <p>
-                <select id="presence-states">
-                    <option value="0">CONNECTED</option>
-                    <option value="1">UNAVAILABLE</option>
-                    <option value="2">AWAY</option>
-                    <option value="3">OUT_TO_LUNCH</option>
-                    <option value="4">BUSY</option>
-                    <option value="5">ON_VACATION</option>
-                    <option value="6">BE_RIGHT_BACK</option>
-                    <option value="7">ON_THE_PHONE</option>
-                    <option value="8">ACTIVE</option>
-                    <option value="9">INACTIVE</option>
-                    <option value="10">PENDING</option>
-                    <option value="11">OFFLINE</option>
-                    <option value="12">CONNECTEDNOTE</option>
-                    <option value="13">UNAVAILABLENOTE</option>
-                </select>
-                <button id="setpresence-btn">Set Presence</button> |
-                <button id="get-btn">Get Presences</button>
+            <fieldset>
+                <legend>Auth</legend>
 
-            </p>
-
-
-            <p>
                 <input id="accessKey" type="text" placeholder="Access Key...." size="29">
-            </p>
-            <p>
-                <input id="username" type="text" placeholder="id" value="ravci@genband.com" size="12" />
-                <input id="password" type="text" placeholder="id" value="yjke9884" size="12" />
-                <input id="username1" type="text" placeholder="id" value="oztemur@genband.com" size="12" />
-                <input id="password1" type="text" placeholder="id" value="Genband.1234" size="12" />
-                <button id="login-btn">Login</button> |
-                <button id="logout-btn">Logout</button>
-            </p>
+
+                <p>
+                    <input id="username" type="text" placeholder="id" value="bkocak@genband.com" size="12" />
+                    <input id="password" type="text" placeholder="id" value="pneg4200" size="12" />
+                    <input id="username1" type="hidden" placeholder="id" value="oztemur@genband.com" size="12" />
+                    <input id="password1" type="hidden" placeholder="id" value="Genband.1234" size="12" />
+                    <button id="login-btn">Login</button> |
+                    <button id="logout-btn">Logout</button>
+                </p>
+            </fieldset>
+            <br />
+
+            <fieldset>
+                <legend>Presence</legend>
+
+                <p>
+                    <select id="presence-states">
+                        <option value="0">CONNECTED</option>
+                        <option value="1">UNAVAILABLE</option>
+                        <option value="2">AWAY</option>
+                        <option value="3">OUT_TO_LUNCH</option>
+                        <option value="4">BUSY</option>
+                        <option value="5">ON_VACATION</option>
+                        <option value="6">BE_RIGHT_BACK</option>
+                        <option value="7">ON_THE_PHONE</option>
+                        <option value="8">ACTIVE</option>
+                        <option value="9">INACTIVE</option>
+                        <option value="10">PENDING</option>
+                        <option value="11">OFFLINE</option>
+                        <option value="12">CONNECTEDNOTE</option>
+                        <option value="13">UNAVAILABLENOTE</option>
+                    </select>
+                    <input type="text" id="presence-note" placeholder="note..." value="" size="10">
+                    <button id="setpresence-btn">Set Presence</button>
+
+                    <p>
+                        <input type="text" id="get-presence" placeholder="Get Presence of ..." value="bkocak@genband.com">
+                        <button id="fetchPresence-btn">Fetch Presence</button>
+                        <button id="get-btn" style="display: none">Get Presence?</button>
+                        <br />
+                        <button id="subPresence-btn">Subscribe Presence</button> | 
+                        <button id="unsubPresence-btn">Unubscribe Presence</button>
+                    </p>
+
+                    <p>Presence:
+                        <label id="current-presence"></label>
+                    </p>
+
+                </p>
+            </fieldset>
+            <br />
+
+            <fieldset>
+                <legend>Call</legend>
+                <b>Call States</b>
+                <select id="call-states">
+                    <option value="7">ANSWERING</option>
+                    <option value="12">CALL_IN_PROGRESS</option>
+                    <option value="13">EARLY_MEDIA</option>
+                    <option value="3">ENDED</option>
+                    <option value="6">INCOMING</option>
+                    <option value="0">IN_CALL</option>
+                    <option value="8">JOINED</option>
+                    <option value="1">ON_HOLD</option>
+                    <option value="11">ON_REMOTE_HOLD</option>
+                    <option value="5">OUTGOING</option>
+                    <option value="4">REJECTED</option>
+                    <option value="9">RENEGOTIATION</option>
+                    <option value="15">REPLACING</option>
+                    <option value="2">RINGING</option>
+                    <option value="10">TRANSFERRED</option>
+                    <option value="14">TRANSFER_FAILURE</option>
+                </select>
+                <input id="get-id" type="text" placeholder="id" size="1" /> |
+                <button id="setstate-btn">Set State</button>
+                <p>
+                    <b>
+                        <label id="labelCall1">First Call</label>
+                    </b>
+                </p>
+                <p>
+                    <input id="isAudioEnabled" type="checkbox" checked /> Audio Enabled
+                    <input id="isVideoEnabled" type="checkbox" checked /> Video Enabled
+                    <br />
+                    <input id="sendInitialVideo" type="checkbox" /> Send Initial Video
+                    <input id="sendScreenShare" type="checkbox" /> Send Screen Share
+                    <br />
+                    <input id="mediaSourceId" type="checkbox" /> Media Source Id
+                </p>
+
+                <p>
+                    <input id="callee" type="text" placeholder="id" value="hguner@genband.com" size="12" />
+                    <button id="call-btn">Call</button> |
+                    <button id="end-btn">End</button>
+                </p>
+                <p>
+                    <button id="hold-btn">Hold</button> |
+                    <button id="unhold-btn">Unhold</button> |
+                    <button id="mute-btn">Mute</button> |
+                    <button id="unmute-btn">Unmute</button>
+                </p>
+
+                <p>
+                    <button id="holdAfterTransfer-btn">Hold After Transfer</button> |
+                    <button id="unholdAfterTransfer-btn">Unhold After Transfer</button>
+                </p>
+                <p>
+                    <button id="videostart-btn">Video Start</button> |
+                    <button id="videostop-btn">Video Stop</button> |
+                    <button id="startScreenshare-btn">Start ScreenShare</button> |
+                    <button id="stopScreenshare-btn">Stop ScreenShare</button>
+                </p>
+
+
+                <p>
+                    <input id="get-targetid" type="text" placeholder="id" size="12" value="hguner@genband.com" />
+                    <button id="transfer-btn">Blind Transfer</button>
+                </p>
+
+                <p>
+                    <select id="Devices">
+                        <option value="7">External Microphone</option>
+                        <option value="12">Internal Microphone</option>
+                    </select>
+                    <button id="changeDevice-btn">Change Devices</button> |
+                    <button id="chnageSpeaker-btn">Change Speaker</button>
+                </p>
+
+
+                <p>
+                    <button id="DTMF-btn1">1</button>
+                    <button id="DTMF-btn2">2</button>
+                    <button id="DTMF-btn3">3</button>
+                    <button id="DTMF-btn4">4</button>
+                    <button id="DTMF-btn5">5</button>
+                    <button id="DTMF-btn6">6</button>
+                    <button id="DTMF-btn7">7</button>
+                    <button id="DTMF-btn8">8</button>
+                    <button id="DTMF-btn9">9</button>
+                    <button id="DTMF-btn7">0</button>
+                    <button id="DTMF-btn8">#</button>
+                    <button id="DTMF-btn9">*</button>
+                </p>
+
+                <p>
+                    <button id="changeDevice-btn">Get Stats</button> |
+                    <button id="chnageSpeaker-btn">Get Native Stats</button> |
+                    <button id="changeDevice-btn">Get Periodically</button> |
+                    <button id="chnageSpeaker-btn">Stop Periodically</button>
+                </p>
+
+
+                <hr>
+                <b>
+                    <label id="labelCall2">Second Call</label>
+                </b>
+
+                <p>
+                    <input id="callee-id2a" type="text" placeholder="id" value="hguner@genband.com" size="12" />
+                    <button id="call-btn2a">Call</button> |
+                    <button id="end-btn2a">End</button> |
+                    <button id="hold-btn2a">Hold</button> |
+                    <button id="unhold-btn2a">Unhold</button>
+                </p>
+
+                <p>
+                    <button id="merge-btn">Merge Calls</button> |
+                    <button id="consultativeTransfer-btn">Consultative Transfer</button>
+                </p>
+
+                <hr>
+                <b>
+                    <label id="labelIncomingCall1">Incoming Call</label>
+                </b>
+                <p>
+                    <button id="answer-btn">Answer</button>
+                    <button id="reject-btn">Reject</button> |
+                    <button id="ignore-btn">Ignore</button>
+                </p>
+
+
+                <p>
+                    <input id="get-forwardid" type="text" placeholder="id" size="12" />
+                    <button id="forward-btn">Forward</button>
+                </p>
+            </fieldset>
+            <br />
+
+            <fieldset>
+                <legend>Messaging</legend>
+                <fieldset>
+                    <legend>
+                        <i>Conversation #1</i>
+                    </legend>
+                    <input id="participant" type="text" placeholder="id" value="hguner@genband.com" />
+                    <button id="createConversation">Create </button> |
+                    <button id="fetchConversation">Fetch </button> |
+                    <button id="createGroupConversation">Create Group </button>
+                    <div class="chatContainer">
+                        <div class="chatField"></div>
+                    </div>
+                    <p>
+                        <textarea id="get-messageid" placeholder="Message..."></textarea>
+                        <div>
+                            <button id="send-btn">Send</button> |
+                            <button id="getmessages-btn">Get</button> |
+                            <button id="clearmessage-btn">Clear</button>
+                    </p>
+
+                    <p>
+                        <select id="messageProp">
+                            <option value="isPending">isPending</option>
+                            <option value="read">read</option>
+                            <option value="sender">sender</option>
+                            <option value="messageId">messageId</option>
+                        </select>
+                        <input type="text" id="messageProp-text" placeholder="true" />
+                        <button id="updatemessage-btn">Update</button>
+                        </div>
+                    </p>
+
+                    <p>
+                        <input type="text" id="fetchAmount" placeholder="50" size="2" value="2" />
+                        <button id="fetchmessages-btn">Fetch</button> |
+                        <button id="subscribe-btn">Subscribe</button> |
+                        <button id="unsubscribe-btn">Unsubscribe</button>
+                    </p>
+
+                    <p>
+                        <input type="file" id="file-input" />
+                        <button id="sendfile-btn">Send</button>
+                    </p>
+                </fieldset>
+                <br />
+                <fieldset>
+                    <legend>
+                        <i>Conversation #2</i>
+                    </legend>
+                    <input id="participant2" type="text" placeholder="id" value="oztemur@genband.com" />
+                    <button id="createConversation2">Create </button> |
+                    <button id="fetchConversation2">Fetch </button> |
+                    <button id="createGroupConversation2">Create Group </button>
+                    <div class="chatContainer2">
+                        <div class="chatField2"></div>
+                    </div>
+                    <p>
+                        <textarea id="get-messageid2" placeholder="Message..."></textarea>
+                        <div>
+                            <button id="send-btn2">Send</button> |
+                            <button id="getmessages-btn2">Get</button> |
+                            <button id="clearmessage-btn2">Clear</button>
+                    </p>
+
+                    <p>
+                        <select id="messageProp2">
+                            <option value="isPending">isPending</option>
+                            <option value="read">read</option>
+                            <option value="sender">sender</option>
+                            <option value="messageId">messageId</option>
+                        </select>
+                        <input type="text" id="messageProp-text2" placeholder="true" />
+                        <button id="updatemessage-btn2">Update</button>
+                        </div>
+                    </p>
+
+                    <p>
+                        <input type="text" id="fetchAmount2" placeholder="50" size="2" value="2" />
+                        <button id="fetchmessages-btn2">Fetch</button> |
+                        <button id="subscribe-btn2">Subscribe</button> |
+                        <button id="unsubscribe-btn2">Unsubscribe</button>
+                    </p>
+
+                    <p>
+                        <input type="file" id="file-input2" />
+                        <button id="sendfile-btn2">Send</button>
+                    </p>
+                </fieldset>
+            </fieldset>
+
+
+
+
+
+
 
             <p>
                 <button id="getUserProfileData-btn">Get User Profile</button> |
@@ -154,310 +382,143 @@
             <button id="search-btn">Search Directory</button>
             </p>
 
-
-            <fieldset>
-                <legend>Conversation 1</legend>
-                <input id="participant" type="text" placeholder="id" value="hguner@genband.com" />
-                <button id="createConversation">Create </button> |
-                <button id="fetchConversation">Fetch </button> |
-                <button id="createGroupConversation">Create Group </button>
-                <div class="chatContainer">
-                    <div class="chatField"></div>
-                </div>
-                <p>
-                    <textarea id="get-messageid" placeholder="Message..."></textarea>
-                    <div>
-                        <button id="send-btn">Send</button> |
-                        <button id="getmessages-btn">Get</button> |
-                        <button id="clearmessage-btn">Clear</button>
-                </p>
-
-                <p>
-                    <select id="messageProp">
-                        <option value="isPending">isPending</option>
-                        <option value="read">read</option>
-                        <option value="sender">sender</option>
-                        <option value="messageId">messageId</option>
-                    </select>
-                    <input type="text" id="messageProp-text" placeholder="true" />
-                    <button id="updatemessage-btn">Update</button>
-                    </div>
-                </p>
-
-                <p>
-                    <input type="text" id="fetchAmount" placeholder="50" size="2" value="2" />
-                    <button id="fetchmessages-btn">Fetch</button> |
-                    <button id="subscribe-btn">Subscribe</button> |
-                    <button id="unsubscribe-btn">Unsubscribe</button>
-                </p>
-
-                <p>
-                    <input type="file" id="file-input" />
-                    <button id="sendfile-btn">Send</button>
-                </p>
-            </fieldset>
-            <fieldset>
-                <legend>Conversation 2</legend>
-                <input id="participant2" type="text" placeholder="id" value="oztemur@genband.com" />
-                <button id="createConversation2">Create </button> |
-                <button id="fetchConversation2">Fetch </button> |
-                <button id="createGroupConversation2">Create Group </button>
-                <div class="chatContainer2">
-                    <div class="chatField2"></div>
-                </div>
-                <p>
-                    <textarea id="get-messageid2" placeholder="Message..."></textarea>
-                    <div>
-                        <button id="send-btn2">Send</button> |
-                        <button id="getmessages-btn2">Get</button> |
-                        <button id="clearmessage-btn2">Clear</button>
-                </p>
-
-                <p>
-                    <select id="messageProp2">
-                        <option value="isPending">isPending</option>
-                        <option value="read">read</option>
-                        <option value="sender">sender</option>
-                        <option value="messageId">messageId</option>
-                    </select>
-                    <input type="text" id="messageProp-text2" placeholder="true" />
-                    <button id="updatemessage-btn2">Update</button>
-                    </div>
-                </p>
-
-                <p>
-                    <input type="text" id="fetchAmount2" placeholder="50" size="2" value="2" />
-                    <button id="fetchmessages-btn2">Fetch</button> |
-                    <button id="subscribe-btn2">Subscribe</button> |
-                    <button id="unsubscribe-btn2">Unsubscribe</button>
-                </p>
-
-                <p>
-                    <input type="file" id="file-input2" />
-                    <button id="sendfile-btn2">Send</button>
-                </p>
-            </fieldset>
             <p>
                 <input id="get-startindexid" type="text" placeholder="Index" value="" />
                 <input id="get-countid" type="text" placeholder="Count" value="" />
                 <button id="retrieve-btn">Retrieve</button>
             </p>
 
-            <hr>
-            <b>
-                <label id="labelCall1">First Call</label>
-            </b>
-            <p>
-                <input id="isAudioEnabled" type="checkbox" checked /> Audio Enabled
-                <input id="isVideoEnabled" type="checkbox" checked /> Video Enabled
-                <input id="sendInitialVideo" type="checkbox" /> Send Initial Video
-                <input id="sendScreenShare" type="checkbox" /> Send Screen Share
-                <input id="mediaSourceId" type="checkbox" /> Media Source Id
-            </p>
-
-            <p>
-                <input id="callee" type="text" placeholder="id" value="hguner@genband.com" size="12" />
-                <button id="call-btn">Call</button> |
-                <button id="end-btn">End</button>
-            </p>
-            <p>
-                <button id="hold-btn">Hold</button> |
-                <button id="unhold-btn">Unhold</button> |
-                <button id="mute-btn">Mute</button> |
-                <button id="unmute-btn">Unmute</button>
-            </p>
-
-            <p>
-                <button id="holdAfterTransfer-btn">Hold After Transfer</button> |
-                <button id="unholdAfterTransfer-btn">Unhold After Transfer</button>
-            </p>
-            <p>
-                <button id="videostart-btn">Video Start</button> |
-                <button id="videostop-btn">Video Stop</button> |
-                <button id="startScreenshare-btn">Start ScreenShare</button> |
-                <button id="stopScreenshare-btn">Stop ScreenShare</button>
-            </p>
-
-
-            <p>
-                <input id="get-targetid" type="text" placeholder="id" size="12" value="hguner@genband.com" />
-                <button id="transfer-btn">Blind Transfer</button>
-            </p>
-
-            <p>
-                <select id="Devices">
-                    <option value="7">External Microphone</option>
-                    <option value="12">Internal Microphone</option>
-                </select>
-                <button id="changeDevice-btn">Change Devices</button> |
-                <button id="chnageSpeaker-btn">Change Speaker</button>
-            </p>
-
-
-            <p>
-                <button id="DTMF-btn1">1</button>
-                <button id="DTMF-btn2">2</button>
-                <button id="DTMF-btn3">3</button>
-                <button id="DTMF-btn4">4</button>
-                <button id="DTMF-btn5">5</button>
-                <button id="DTMF-btn6">6</button>
-                <button id="DTMF-btn7">7</button>
-                <button id="DTMF-btn8">8</button>
-                <button id="DTMF-btn9">9</button>
-                <button id="DTMF-btn7">0</button>
-                <button id="DTMF-btn8">#</button>
-                <button id="DTMF-btn9">*</button>
-            </p>
-
-            <p>
-                <button id="changeDevice-btn">Get Stats</button> |
-                <button id="chnageSpeaker-btn">Get Native Stats</button> |
-                <button id="changeDevice-btn">Get Periodically</button> |
-                <button id="chnageSpeaker-btn">Stop Periodically</button>
-            </p>
-
-
-            <hr>
-            <b>
-                <label id="labelCall2">Second Call</label>
-            </b>
-
-            <p>
-                <input id="callee-id2a" type="text" placeholder="id" value="hguner@genband.com" size="12" />
-                <button id="call-btn2a">Call</button> |
-                <button id="end-btn2a">End</button> |
-                <button id="hold-btn2a">Hold</button> |
-                <button id="unhold-btn2a">Unhold</button>
-            </p>
-
-            <p>
-                <button id="merge-btn">Merge Calls</button> |
-                <button id="consultativeTransfer-btn">Consultative Transfer</button>
-            </p>
-
-            <hr>
-            <b>
-                <label id="labelIncomingCall1">Incoming Call</label>
-            </b>
-            <p>
-                <button id="answer-btn">Answer</button>
-                <button id="reject-btn">Reject</button> |
-                <button id="ignore-btn">Ignore</button>
-            </p>
-
-
-            <p>
-                <input id="get-forwardid" type="text" placeholder="id" size="12" />
-                <button id="forward-btn">Forward</button>
-            </p>
-
-
         </li>
 
 
 
         <li class="peer2">
-            <p>
-                <b>
-                    <label id="labelCall1">Peer 2</label>
-                </b>
-            </p>
-            <p>
+
+            <b>
+                <label id="labelCall1">Peer 2</label>
+            </b>
+
+            <fieldset>
+                <legend>Auth</legend>
+
+                <input id="accessKey" type="text" placeholder="Access Key...." size="29">
+
+                <p>
+                    <input id="get-loginid2" type="text" placeholder="id" value="oztemur@genband.com" size="12" />
+                    <button id="login-btn2">Login</button> |
+                    <button id="logout-btn2">Logout</button>
+                </p>
+            </fieldset>
+            <br />
+
+            <fieldset>
+                <legend>Presence</legend>
+                <p>
+                    <select id="presence-states2">
+                        <option value="0">CONNECTED</option>
+                        <option value="1">UNAVAILABLE</option>
+                        <option value="2">AWAY</option>
+                        <option value="3">OUT_TO_LUNCH</option>
+                        <option value="4">BUSY</option>
+                        <option value="5">ON_VACATION</option>
+                        <option value="6">BE_RIGHT_BACK</option>
+                        <option value="7">ON_THE_PHONE</option>
+                        <option value="8">ACTIVE</option>
+                        <option value="9">INACTIVE</option>
+                        <option value="10">PENDING</option>
+                        <option value="11">OFFLINE</option>
+                        <option value="12">CONNECTEDNOTE</option>
+                        <option value="13">UNAVAILABLENOTE</option>
+                    </select>
+                    <button id="setpresence-btn2">Set Presence</button>
+
+                    <p>
+                        <input type="text" id="get-presence2" placeholder="Get Presence of ...">
+                        <button id="get-btn2">Get Presence</button>
+                    </p>
+
+                    <p>Presence:
+                        <label id="current-presence2"></label>
+                    </p>
+
+                </p>
+            </fieldset>
+            <br />
+
+            <fieldset>
+                <legend>Call</legend>
+
                 <b>
                     <label id="labelP1Call1">First Call</label>
                 </b>
-            </p>
-
-            <p>
-                <input id="initiallvideo2" type="checkbox" /> Send Initial Video
-                <input id="videoenabled2" type="checkbox" /> Video Enabled
-            </p>
-
-            <select id="call-states2">
-                <option value="7">ANSWERING</option>
-                <option value="12">CALL_IN_PROGRESS</option>
-                <option value="13">EARLY_MEDIA</option>
-                <option value="3">ENDED</option>
-                <option value="6">INCOMING</option>
-                <option value="0">IN_CALL</option>
-                <option value="8">JOINED</option>
-                <option value="1">ON_HOLD</option>
-                <option value="11">ON_REMOTE_HOLD</option>
-                <option value="5">OUTGOING</option>
-                <option value="4">REJECTED</option>
-                <option value="9">RENEGOTIATION</option>
-                <option value="15">REPLACING</option>
-                <option value="2">RINGING</option>
-                <option value="10">TRANSFERRED</option>
-                <option value="14">TRANSFER_FAILURE</option>
-            </select>
-            <input id="get-id2" type="text" placeholder="id" size="1" />
-            <p>
-                <button id="setstate-btn2">Set State</button>
-            </p>
 
 
-            <p>
-                <input id="get-loginid2" type="text" placeholder="id" value="oztemur@genband.com" size="12" />
-                <button id="login-btn2">Login</button> |
-                <button id="logout-btn2">Logout</button>
-            </p>
+                <p>
+                    <input id="initiallvideo2" type="checkbox" /> Send Initial Video
+                    <input id="videoenabled2" type="checkbox" /> Video Enabled
+                </p>
 
-            <p>
-                <input id="callee-id2" type="text" placeholder="id" value="ravci@genband.com" size="12" />
-                <button id="call-btn2">Start Call</button> |
-                <button id="end-btn2">End Call</button>
-            </p>
-
-            <p>
-                <button id="answer-btn2">Answer</button> |
-                <button id="reject-btn2">Reject</button> |
-                <button id="ignore-btn2">Ignore</button>
-            </p>
-
-            <p>
-                <input id="get-targetid2" type="text" placeholder="id" size="12" />
-                <button id="transfer-btn2">Transfer</button>
-            </p>
-            <p>
-                <input id="get-forwardid2" type="text" placeholder="id" size="12" />
-                <button id="forward-btn2">Forward</button>
-            </p>
-
-
-            <p>
-                <button id="hold-btn2">Hold</button> |
-                <button id="unhold-btn2">Unhold</button>
-            </p>
-            <p>
-                <button id="videostart-btn2">Video Start</button> |
-                <button id="videostop-btn2">Video Stop</button>
-            </p>
-
-            <p>
-                <button id="merge-btn2">Merge Calls</button>
-            </p>
-            <p>
-                <select id="presence-states2">
-                    <option value="0">CONNECTED</option>
-                    <option value="1">UNAVAILABLE</option>
-                    <option value="2">AWAY</option>
-                    <option value="3">OUT_TO_LUNCH</option>
-                    <option value="4">BUSY</option>
-                    <option value="5">ON_VACATION</option>
-                    <option value="6">BE_RIGHT_BACK</option>
-                    <option value="7">ON_THE_PHONE</option>
-                    <option value="8">ACTIVE</option>
-                    <option value="9">INACTIVE</option>
-                    <option value="10">PENDING</option>
-                    <option value="11">OFFLINE</option>
-                    <option value="12">CONNECTEDNOTE</option>
-                    <option value="13">UNAVAILABLENOTE</option>
+                <select id="call-states2">
+                    <option value="7">ANSWERING</option>
+                    <option value="12">CALL_IN_PROGRESS</option>
+                    <option value="13">EARLY_MEDIA</option>
+                    <option value="3">ENDED</option>
+                    <option value="6">INCOMING</option>
+                    <option value="0">IN_CALL</option>
+                    <option value="8">JOINED</option>
+                    <option value="1">ON_HOLD</option>
+                    <option value="11">ON_REMOTE_HOLD</option>
+                    <option value="5">OUTGOING</option>
+                    <option value="4">REJECTED</option>
+                    <option value="9">RENEGOTIATION</option>
+                    <option value="15">REPLACING</option>
+                    <option value="2">RINGING</option>
+                    <option value="10">TRANSFERRED</option>
+                    <option value="14">TRANSFER_FAILURE</option>
                 </select>
-                <button id="setpresence-btn2">Set Presence</button> |
-                <button id="get-btn2">Get Presences</button>
+                <input id="get-id2" type="text" placeholder="id" size="1" />
+                <p>
+                    <button id="setstate-btn2">Set State</button>
+                </p>
 
-            </p>
+                <p>
+                    <input id="callee-id2" type="text" placeholder="id" value="ravci@genband.com" size="12" />
+                    <button id="call-btn2">Start Call</button> |
+                    <button id="end-btn2">End Call</button>
+                </p>
+
+                <p>
+                    <button id="answer-btn2">Answer</button> |
+                    <button id="reject-btn2">Reject</button> |
+                    <button id="ignore-btn2">Ignore</button>
+                </p>
+
+                <p>
+                    <input id="get-targetid2" type="text" placeholder="id" size="12" />
+                    <button id="transfer-btn2">Transfer</button>
+                </p>
+                <p>
+                    <input id="get-forwardid2" type="text" placeholder="id" size="12" />
+                    <button id="forward-btn2">Forward</button>
+                </p>
+
+
+                <p>
+                    <button id="hold-btn2">Hold</button> |
+                    <button id="unhold-btn2">Unhold</button>
+                </p>
+                <p>
+                    <button id="videostart-btn2">Video Start</button> |
+                    <button id="videostop-btn2">Video Stop</button>
+                </p>
+
+                <p>
+                    <button id="merge-btn2">Merge Calls</button>
+                </p>
+            </fieldset>
+
+
+
 
             <hr>
             <b>
@@ -477,43 +538,48 @@
         </li>
     </ul>
 
-    <hr>
-    <b>
-        <label id="labelTest">Tests</label>
-    </b>
-    <p>
-        <button id="loginall-btn">Login Users</button> |
-        <button id="logoutall-btn">Logout Users</button>
-    </p>
-    <p>
-        <button id="basicCallTest-btn">Basic Call Test</button> |
-        <button id="basicCallTest2-btn">2 Call Test</button> |
-        <button id="basicCallTest3-btn">Switch Call Test</button> |
-    </p>
-    <p>
-        <button id="testHoldUnhold-btn">Hold Unhold</button> |
-        <button id="testMuteUnmute-btn">Mute Unmute</button> |
-        <button id="testdualHold-btn">Dual Hold</button> |
-        <button id="testGlareHold-btn">Glare Condition</button>
-    </p>
-    <p>
-        <button id="testVideoCall-btn">Test Video Call</button> |
-        <button id="test2WVideoCall-btn">Test 2-Way Video Call</button> |
-        <button id="testVideoEscalation-btn">Test Video Escalation</button> |
-        <button id="testVideoStopStart-btn">Test Video Stop Start</button> |
-    </p>
-    <p>
-        <button id="testDirectTransfer-btn">Test Direct Transfer</button> |
-        <button id="testDirectTransferVideo-btn">Test Direct Transfer Video</button> |
-        <button id="testConsTransfer-btn">Consultative Transfer Test</button> |
-        <button id="testMerge-btn">3WC Test</button> |
-        <button id="testState-btn">Get State</button>
+    <fieldset>
+        <legend>
+            <b>
+                <label id="labelTest">Tests</label>
+            </b>
+        </legend>
 
-    </p>
-    <p>
-        <button id="testHoldUnholdAfterTransfer-btn">Test Hold Unhold After Transfer</button> |
-        <button id="testHoldUnhold2-btn">Test Video Start After Hold Unhold</button> |
-    </p>
+        <p>
+            <button id="loginall-btn">Login Users</button> |
+            <button id="logoutall-btn">Logout Users</button>
+        </p>
+        <p>
+            <button id="basicCallTest-btn">Basic Call Test</button> |
+            <button id="basicCallTest2-btn">2 Call Test</button> |
+            <button id="basicCallTest3-btn">Switch Call Test</button> |
+        </p>
+        <p>
+            <button id="testHoldUnhold-btn">Hold Unhold</button> |
+            <button id="testMuteUnmute-btn">Mute Unmute</button> |
+            <button id="testdualHold-btn">Dual Hold</button> |
+            <button id="testGlareHold-btn">Glare Condition</button>
+        </p>
+        <p>
+            <button id="testVideoCall-btn">Test Video Call</button> |
+            <button id="test2WVideoCall-btn">Test 2-Way Video Call</button> |
+            <button id="testVideoEscalation-btn">Test Video Escalation</button> |
+            <button id="testVideoStopStart-btn">Test Video Stop Start</button> |
+        </p>
+        <p>
+            <button id="testDirectTransfer-btn">Test Direct Transfer</button> |
+            <button id="testDirectTransferVideo-btn">Test Direct Transfer Video</button> |
+            <button id="testConsTransfer-btn">Consultative Transfer Test</button> |
+            <button id="testMerge-btn">3WC Test</button> |
+            <button id="testState-btn">Get State</button>
+
+        </p>
+        <p>
+            <button id="testHoldUnholdAfterTransfer-btn">Test Hold Unhold After Transfer</button> |
+            <button id="testHoldUnhold2-btn">Test Video Start After Hold Unhold</button> |
+        </p>
+    </fieldset>
+
     <div class='content column'>
         <div>
             Remote Video:
