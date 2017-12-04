@@ -233,7 +233,7 @@ class Peer_kandy3 {
             currentConvo = self.getConversation(args[0])
 
             self.peer.call('msg/add', ['msg1'])
-            self.peer.set('msg/#0', {
+            self.peer.set('msg/#1', {
                 conversation_term: true
             })
         });
@@ -280,16 +280,22 @@ class Peer_kandy3 {
             console.log('Peer3: subscribeMethod method called..');
 
             currentConvo.subscribe(function (messageObj) {
-
                 console.log('Updated: ' + JSON.stringify(messageObj))
             });
-
+            self.peer.set('msg/#' + 1, {
+                subscribe_term: true
+            })
         });
 
         this.unsubscribeMethod = new jet.Method('msg/unsubscribe3');
         this.unsubscribeMethod.on('call', function (args) {
             console.log('Peer3: unsubscribeMethod method called..');
-            currentConvo.unsubscribe();
+            currentConvo.unsubscribe(function (messageObj) {
+                console.log('Updated: ' + JSON.stringify(messageObj))
+            });
+            self.peer.set('msg/#' + 1, {
+                subscribe_term: false
+            })
         });
 
         this.fetchMessagesMethod = new jet.Method('msg/fetchMessages3');
@@ -508,6 +514,13 @@ class Peer_kandy3 {
         kandy.on('auth:changed', function () {
             document.getElementById('auth-status').innerHTML = 'isConnected: ' + kandy.getConnection().isConnected;
             self.peer.set('login/#' + 0, {
+                isConnected3: kandy.getConnection().isConnected
+            })
+        });
+        kandy.on('auth:changed', function () {
+            document.getElementById('auth-status').innerHTML = 'isConnected: ' + kandy.getConnection().isConnected;
+            var id = '0'
+            self.peer.set('login/#' + id, {
                 isConnected3: kandy.getConnection().isConnected
             })
         });
