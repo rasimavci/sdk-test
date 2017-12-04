@@ -139,6 +139,38 @@ Login.prototype.merge = function (other) {
   }
 }
 
+// Declare Presence Class
+var presenceId = 0
+var Presence = function (title) {
+  this.id = presenceId++
+  if (typeof title !== 'string') {
+    throw new Error('title must be a string')
+  }
+
+  this.title = title
+  this.presence_status = ''
+  this.presence_activity = ''
+  this.presence_note = ''
+  this.subscribed_to = ''
+}
+
+Presence.prototype.merge = function (other) {
+  if (other.presence_status !== undefined) {
+    this.presence_status = other.presence_status
+  }
+
+  if (other.presence_activity !== undefined) {
+    this.presence_activity = other.presence_activity
+  }
+
+  if (other.presence_note !== undefined) {
+    this.presence_note = other.presence_note
+  }
+  if (other.subscribed_to !== undefined) {
+    this.subscribed_to = other.subscribed_to
+  }
+}
+
 // Declare Call Class
 var callId = 0
 
@@ -353,6 +385,27 @@ addLogin.on('call', function (args) {
 })
 
 
+
+// Presence
+var presenceStates = {}
+
+var addPresence = new jet.Method('presence/add')
+addPresence.on('call', function (args) {
+  var title = args[0]
+  var presence = new Presence(title)
+
+  var presenceState = new jet.State('presence/#' + presence.id, presence)
+  presenceState.on('set', function (requestedPresence) {
+    presence.merge(requestedPresence)
+    return {
+      value: presence
+    }
+  })
+  presenceStates[presence.id] = presenceState
+  peer.add(presenceState)
+})
+
+
 var callStates = {}
 
 // Provide a "call/add" method to create new calls
@@ -414,6 +467,7 @@ setCompleted.on('call', function (args) {
 jet.Promise.all([
   peer.connect(),
   peer.add(addMessage),
+  peer.add(addPresence),
   peer.add(addLogin),
   peer.add(addCall),
   peer.add(removeCall),
