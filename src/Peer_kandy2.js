@@ -76,21 +76,21 @@ const mediaStates = {
 
 const presences = {
 
-0: 'SERVICE_FAILURE',
-8: 'ACTIVE',
-2: 'AWAY',
-6: 'BE_RIGHT_BACK',
-4: 'BUSY',
-0:'CONNECTED',
-12:'CONNECTEDNOTE',
-9:'INACTIVE',
-11:'OFFLINE',
-7:'ON_THE_PHONE',
-5:'ON_VACATION',
-3:'OUT_TO_LUNCH',
-10:'PENDING',
-1:'UNAVAILABLE',
-13:'UNAVAILABLENOTE',
+    0: 'SERVICE_FAILURE',
+    8: 'ACTIVE',
+    2: 'AWAY',
+    6: 'BE_RIGHT_BACK',
+    4: 'BUSY',
+    0: 'CONNECTED',
+    12: 'CONNECTEDNOTE',
+    9: 'INACTIVE',
+    11: 'OFFLINE',
+    7: 'ON_THE_PHONE',
+    5: 'ON_VACATION',
+    3: 'OUT_TO_LUNCH',
+    10: 'PENDING',
+    1: 'UNAVAILABLE',
+    13: 'UNAVAILABLENOTE',
 }
 
 
@@ -133,15 +133,15 @@ class Peer_kandy2 {
         this.callMethod = new jet.Method('call/makeCall2');
         this.callMethod.on('call', function (args) {
             console.log('Peer: makeCall method started..');
-                var options = {
-        
-        isAudioEnabled: document.getElementById('isAudioEnabled').checked,
-        isVideoEnabled: document.getElementById('isVideoEnabled').checked,
-        sendInitialVideo: document.getElementById('sendInitialVideo').checked,
-        sendScreenShare: document.getElementById('sendScreenShare').checked,
-        localVideoContainer: document.getElementById('local-container'),
-        remoteVideoContainer: document.getElementById('remote-container')
-    };
+            var options = {
+
+                isAudioEnabled: document.getElementById('isAudioEnabled').checked,
+                isVideoEnabled: document.getElementById('isVideoEnabled').checked,
+                sendInitialVideo: document.getElementById('sendInitialVideo').checked,
+                sendScreenShare: document.getElementById('sendScreenShare').checked,
+                localVideoContainer: document.getElementById('local-container'),
+                remoteVideoContainer: document.getElementById('remote-container')
+            };
             self.makeCall(args[0], options)
         });
 
@@ -192,11 +192,11 @@ class Peer_kandy2 {
 
             //todo: normaly this was in another function called callAnswer
             self.startVideo(function () {
-                self.showSuccessMessage("Call is videoStart!",self);
+                self.showSuccessMessage("Call is videoStart!", self);
             },
 
                 function () {
-                    self.showErrorMessage("Call couldn't be videoStart!",self);
+                    self.showErrorMessage("Call couldn't be videoStart!", self);
                 });
         });
 
@@ -207,16 +207,16 @@ class Peer_kandy2 {
 
             //todo: normaly this was in another function called callAnswer
             self.stopVideo(function () {
-                self.showSuccessMessage("Call is videoStop!",self);
+                self.showSuccessMessage("Call is videoStop!", self);
             },
 
                 function () {
-                    self.showErrorMessage("Call couldn't be videoStart!",self);
+                    self.showErrorMessage("Call couldn't be videoStart!", self);
                 });
         });
 
-///////////////Transfer & Merge
-////////////////////////////////////////////////////
+        ///////////////Transfer & Merge
+        ////////////////////////////////////////////////////
         this.directTransferMethod = new jet.Method('call/directTransfer2');
         this.directTransferMethod.on('call', function (args) {
 
@@ -229,28 +229,28 @@ class Peer_kandy2 {
 
             console.log('Peer1: consultativeTransfer method called..');
 
-                self.currentCall.consultativeTransfer(self.currentCall2.getId(), function() {
-                        self.showSuccessMessage("consultative Transfered is successful",self);
-                    },
-                    function() {
-                        self.showErrorMessage("consultative Transfer is failed!",self);
-                    });
+            self.currentCall.consultativeTransfer(self.currentCall2.getId(), function () {
+                self.showSuccessMessage("consultative Transfered is successful", self);
+            },
+                function () {
+                    self.showErrorMessage("consultative Transfer is failed!", self);
+                });
         });
- 
+
         this.conferenceCallMethod = new jet.Method('call/conferenceCall1');
         this.conferenceCallMethod.on('call', function (args) {
 
             console.log('Peer1: conference Call method called..');
 
             self.currentCall2.join(self.currentCall, function () {
-                self.showSuccessMessage("conference call is successful",self);
+                self.showSuccessMessage("conference call is successful", self);
             },
                 function () {
-                    self.showErrorMessage("conference Call is failed!",self);
+                    self.showErrorMessage("conference Call is failed!", self);
                 });
         });
 
-       // MESSAGING
+        // MESSAGING
         this.fetchConversationMethod = new jet.Method('msg/fetchConversation2');
         this.fetchConversationMethod.on('call', function (args) {
             console.log('Peer2: fetchConversationMethod method called..');
@@ -273,7 +273,7 @@ class Peer_kandy2 {
             self.peer.call('msg/add', ['msg1'])
             self.peer.set('msg/#0', {
                 conversation_term: true
-              })
+            })
         });
 
 
@@ -301,20 +301,20 @@ class Peer_kandy2 {
 
             self.peer.set('msg/#' + id, {
                 messages_term: msgArray
-            }) 
+            })
         });
 
         this.getMessagesMethod = new jet.Method('msg/getMessages2');
         this.getMessagesMethod.on('call', function (args) {
             console.log('Peer2: getMessagesMethod method called..');
 
-return currentConvo.getMessages();
-       /* var msgArray = currentConvo.getMessages();
-            let id = '0'
-            self.peer.set('msg/#' + id, {
-                messages_term: msgArray
-            }) 
-*/
+            return currentConvo.getMessages();
+            /* var msgArray = currentConvo.getMessages();
+                 let id = '0'
+                 self.peer.set('msg/#' + id, {
+                     messages_term: msgArray
+                 }) 
+     */
         });
 
         this.subscribeMethod = new jet.Method('msg/subscribe2');
@@ -455,7 +455,7 @@ return currentConvo.getMessages();
             console.log('Peer: unmute method added')
         }).catch(function (err) {
             console.log('Peer: add videoStopMethod failed', err);
-        });        
+        });
 
         this.peer.add(this.directTransferMethod).then(function () {
             console.log('Peer: mute method added')
@@ -467,9 +467,9 @@ return currentConvo.getMessages();
             console.log('Peer: unmute method added')
         }).catch(function (err) {
             console.log('Peer: add consultativeTransferMethod failed', err);
-        }); 
+        });
 
-       this.peer.add(this.imSendMethod).then(function () {
+        this.peer.add(this.imSendMethod).then(function () {
             console.log('Peer: imSendMethod method added')
         }).catch(function (err) {
             console.log('Peer: imSendMethod failed', err);
@@ -538,11 +538,11 @@ return currentConvo.getMessages();
         }).catch(function (err) {
             console.log('Peer: updateMessagesMethod failed', err);
         });
-        
+
     }
 
     login(args) {
-        var self = this;       
+        var self = this;
         kandy.connect({
             domainApiKey: '',
             username: args[0],
@@ -551,74 +551,74 @@ return currentConvo.getMessages();
 
 
 
-         var updateCallList = function() {
-        var currentUser = kandy.getUserInfo().username;
-        //var selectList = document.getElementById(callListId);
-        console.log('User: ' + currentUser)
-      
+        var updateCallList = function () {
+            var currentUser = kandy.getUserInfo().username;
+            //var selectList = document.getElementById(callListId);
+            console.log('User: ' + currentUser)
+
             self.peer.get({ path: { equals: 'call/#0' } }).then(function (results) {
                 // console.log('peer1 sonuc:' + results[0].value.secondCall)
-               // secondCall = results[0].value.secondCall
+                // secondCall = results[0].value.secondCall
                 transferSuccess = results[0].value.transferSuccess
-              //  callId1 = results[0].value.callId
+                //  callId1 = results[0].value.callId
             });
 
 
-        // Get active calls.
-        var calls = kandy.getCalls().filter(function (call) {
+            // Get active calls.
+            var calls = kandy.getCalls().filter(function (call) {
 
-               var id = '0'
-        self.peer.set('call/#' + id, {
-            state_term: call.state
-        })
-                 
-            return call.state !== 'ENDED';
-        });
+                var id = '0'
+                self.peer.set('call/#' + id, {
+                    state_term: call.state
+                })
 
-        calls.forEach(function (call) {
-            firstCallId = call.id;           
-       
-               var id = '0'
-        self.peer.set('call/#' + id, {
-            state_term: call.state
-        })
-
-
-        });
-
-/*
-if(transferSuccess){
-            self.peer.get({ path: { equals: 'call/#1' } }).then(function (results) {
-                firstCallId = results[0].value.callId
+                return call.state !== 'ENDED';
             });
-}
 
-*/
+            calls.forEach(function (call) {
+                firstCallId = call.id;
 
-/*
-if (call.to === 'ravci@genband.com' ) {
-firstCallId = call.id
-}
+                var id = '0'
+                self.peer.set('call/#' + id, {
+                    state_term: call.state
+                })
 
-else if (call.to === 'hguner@genband.com' ) {
-firstCallId = call.id
-}
-*/
-          /*
-        // Empty the select list.
-        for (var i = selectList.options.length; i >= 0; i--) {
-            selectList.remove(i);
+
+            });
+
+            /*
+            if(transferSuccess){
+                        self.peer.get({ path: { equals: 'call/#1' } }).then(function (results) {
+                            firstCallId = results[0].value.callId
+                        });
+            }
+            
+            */
+
+            /*
+            if (call.to === 'ravci@genband.com' ) {
+            firstCallId = call.id
+            }
+            
+            else if (call.to === 'hguner@genband.com' ) {
+            firstCallId = call.id
+            }
+            */
+            /*
+          // Empty the select list.
+          for (var i = selectList.options.length; i >= 0; i--) {
+              selectList.remove(i);
+          }
+          // Add active calls to the select list.
+          calls.forEach(function (call) {
+              var option = document.createElement('option');
+              var participant = (call.to !== currentUser) ? call.to : call.from;
+              option.text = participant + ' - ' + call.state;
+              option.value = call.id;
+              selectList.options.add(option);
+          });
+          */
         }
-        // Add active calls to the select list.
-        calls.forEach(function (call) {
-            var option = document.createElement('option');
-            var participant = (call.to !== currentUser) ? call.to : call.from;
-            option.text = participant + ' - ' + call.state;
-            option.value = call.id;
-            selectList.options.add(option);
-        });
-        */
-    }
         kandy.on('call:started', updateCallList);
         kandy.on('call:incoming', updateCallList);
         kandy.on('call:joined', updateCallList);
@@ -627,12 +627,26 @@ firstCallId = call.id
         kandy.on('media:error', this.onMediaError);
         kandy.on('devices:retrieved', this.onDevices);
 
-kandy.on('auth:changed', function() {
-    document.getElementById('auth-status').innerHTML = 'isConnected: ' + kandy.getConnection().isConnected;
-        self.peer.set('login/#' + 0, {
-            isConnected2: kandy.getConnection().isConnected
-        })
-});
+        kandy.on('auth:changed', function () {
+            document.getElementById('auth-status').innerHTML = 'isConnected: ' + kandy.getConnection().isConnected;
+            self.peer.set('login/#' + 0, {
+                isConnected2: kandy.getConnection().isConnected
+            })
+        });
+        kandy.on('auth:changed', function () {
+            document.getElementById('auth-status').innerHTML = 'isConnected: ' + kandy.getConnection().isConnected;
+            var id = '0'
+            self.peer.set('login/#' + id, {
+                isConnected2: kandy.getConnection().isConnected
+            })
+        });
+
+        kandy.on('auth:error', function() {
+            var id = '0'
+            self.peer.set('login/#' + id, {
+                isConnected1: kandy.getConnection().isConnected
+            })
+        });
 
         kandy.on('contacts:changed', function (data) {
             data.forEach(function (element) {
@@ -647,41 +661,41 @@ kandy.on('auth:changed', function() {
         });
 
         kandy.on('call:muted', function (data) {
-                    self.peer.set('login/#' + 0, {
-            mute_term: 'muted'
-        })
-    });
-
-            kandy.on('call:unmuted', function (data) {
-                    self.peer.set('login/#' + 0, {
-            mute_term: 'unmuted'
-        })
+            self.peer.set('login/#' + 0, {
+                mute_term: 'muted'
+            })
         });
-    
+
+        kandy.on('call:unmuted', function (data) {
+            self.peer.set('login/#' + 0, {
+                mute_term: 'unmuted'
+            })
+        });
+
         kandy.on('call:mediaChange', function (callId, mediaState) {
             console.log('media Changed')
             console.log('callId: ' + callId)
             console.log('mediaState: ' + mediaState)
-        self.peer.set('call/#' + 0, {
-            mediaState_term: mediaState
-        })
+            self.peer.set('call/#' + 0, {
+                mediaState_term: mediaState
+            })
 
-    });
-    
+        });
+
         kandy.on('call:incoming', function (callId) {
             console.log('incoming call with id' + callId)
             firstCallId = callId;
-                    self.peer.set('call/#' + 0, {
-            call_term: 'incoming'
-        })
-    });
+            self.peer.set('call/#' + 0, {
+                call_term: 'incoming'
+            })
+        });
 
-        kandy.on('messages:new', function() {
+        kandy.on('messages:new', function () {
             console.log('Message received.')
-//            var currentUser = kandy.getUserInfo().username;
+            //            var currentUser = kandy.getUserInfo().username;
             var msgArray = currentConvo.getMessages()
             console.log('Full message array: ' + msgArray)
-           
+
             // TODO mroe simple
             let id = '0'
             self.peer.set('msg/#' + id, {
@@ -691,8 +705,8 @@ kandy.on('auth:changed', function() {
 
         });
 
-        kandy.on('conversations:new', function() {
-           self.peer.set('msg/#' + 0, {
+        kandy.on('conversations:new', function () {
+            self.peer.set('msg/#' + 0, {
                 conversation_term: true
             })
 
@@ -720,14 +734,14 @@ kandy.on('auth:changed', function() {
             localVideoContainer: document.getElementById('local-container'),
             remoteVideoContainer: document.getElementById('remote-container')
         };
-        
+
         kandy.answerCall(callId, options);
-            self.peer.set('call/#' + 0, {
+        self.peer.set('call/#' + 0, {
             callId: callId
         })
     }
 
-answerVideoCall() {
+    answerVideoCall() {
 
         var callId = firstCallId //self.getSelectedCall();
         var options = {
@@ -738,29 +752,29 @@ answerVideoCall() {
             localVideoContainer: document.getElementById('local-container'),
             remoteVideoContainer: document.getElementById('remote-container')
         };
-        
+
         kandy.answerCall(callId, options);
-            self.peer.set('call/#' + 0, {
+        self.peer.set('call/#' + 0, {
             callId: callId
         })
     }
-   
+
     getSelectedCall() {
-/*
-if(transferSuccess){
-            self.peer.get({ path: { equals: 'call/#1' } }).then(function (results) {
-                firstCallId = results[0].value.callId
-            });
-}
-            else {
-            self.peer.get({ path: { equals: 'call/#0' } }).then(function (results) {
-                firstCallId = results[0].value.callId
+        /*
+        if(transferSuccess){
+                    self.peer.get({ path: { equals: 'call/#1' } }).then(function (results) {
+                        firstCallId = results[0].value.callId
+                    });
+        }
+                    else {
+                    self.peer.get({ path: { equals: 'call/#0' } }).then(function (results) {
+                        firstCallId = results[0].value.callId
+        
+                    });
+                    }
+        */
 
-            });
-            }
-*/
-
-return firstCallId;
+        return firstCallId;
 
         //var selectList = document.getElementById(callListId);
         //return selectList.options[selectList.selectedIndex].value;
@@ -882,7 +896,7 @@ return firstCallId;
     unholdCall(self) {
         var callId = firstCallId //this.getSelectedCall(self);
         //var callId2 = this.getSelectedCall(self);
-        kandy.unHoldCall(callId);        
+        kandy.unHoldCall(callId);
     }
 
     startVideo() {
@@ -971,7 +985,7 @@ return firstCallId;
 
     directTransfer(destination) {
         var callId = firstCallId; //getSelectedCall();
-       // var destination = document.getElementById('transfer-to').value;
+        // var destination = document.getElementById('transfer-to').value;
         kandy.directTransfer(callId, destination);
     }
 
@@ -991,13 +1005,13 @@ return firstCallId;
         }
     }
 
-    getConversation (userId, options = {}) {
+    getConversation(userId, options = {}) {
         return kandy.getConversation(userId, options);
     }
 
     fetchConversations() {
         kandy.fetchConversations()
-    }    
+    }
 
 }
 
