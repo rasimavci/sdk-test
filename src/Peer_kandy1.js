@@ -289,22 +289,9 @@ class Peer_kandy1 {
             self.stopVideo(2)
         });
 
-        this.setPresenceMethod = new jet.Method('call/setPresence1');
-        this.setPresenceMethod.on('call', function (args) {
-            //var self = this;
-            console.log('Peer: presence state..');
+        
 
-            self.updatePresenceState(args[0],
-                //Success callback
-                function () {
-                    self.showSuccessMessage("Presence state is set to " + args[0], self);
-                },
-                //Failure callback
-                function () {
-                    self.showErrorMessage("Presence state couldn't be changed!", self);
-                }
-            );
-        });
+        
 
         this.getAddrBookMethod = new jet.Method('call/getAddrBook1');
         this.getAddrBookMethod.on('call', function (args) {
@@ -484,6 +471,89 @@ class Peer_kandy1 {
 
         });
 
+
+
+        /////////////////////////// PRESENCE 1 ///////////////////////////
+        this.setPresenceMethod = new jet.Method('presence/setPresence1');
+        this.setPresenceMethod.on('call', function (args) {
+            var params = {
+                status: "",
+                activity: "",
+                note: args[1]
+            };
+            console.log('Peer: setPresence state.. : ' + args[0]);
+
+            switch (args[0]) {
+                case "0":
+                    params.status = "open"
+                    params.activity = "unknown"
+                    break;
+                case "1":
+                    params.status = "closed"
+                    params.activity = "unknown"
+                    break;
+                case "2":
+                    params.status = "open"
+                    params.activity = "away"
+                    break;
+                case "3":
+                    params.status = "open"
+                    params.activity = "lunch"
+                    break;
+                case "4":
+                    params.status = "closed"
+                    params.activity = "busy"
+                    break;
+                case "5":
+                    params.status = "closed"
+                    params.activity = "vacation"
+                    break;
+                case "6":
+                    params.status = "open"
+                    params.activity = "other"
+                    params.note = "be right Back"
+                    break;
+
+                default:
+                    break;
+            }
+
+            self.updatePresence(params.status, params.activity, params.note) // status, activity, note
+        });
+        this.getPresenceMethod = new jet.Method('presence/getPresence1');
+        this.getPresenceMethod.on('call', function (args) {
+            console.log('Peer: getPresence state for ' + args[0]);
+            var presence = self.getPresence([args[0]])
+            console.log('Presence: ' + JSON.stringify(presence))
+        });
+        this.fetchPresenceMethod = new jet.Method('presence/fetchPresence1');
+        this.fetchPresenceMethod.on('call', function (args) {
+            console.log('Peer: fetch Presence state: ' + args[0]);
+            self.peer.call('presence/add', ['presence1'])
+            self.fetchPresence(args[0]) //presence:received
+        });
+        this.subscribePresenceMethod = new jet.Method('presence/subscribePresence1');
+        this.subscribePresenceMethod.on('call', function (args) {
+            console.log('Peer: subscribe Presence of: ' + args[0]);
+            self.peer.call('presence/add', ['presence1'])
+            self.subscribePresence(args[0])
+            self.peer.set('presence/#0', {
+                subscribed_to: args[0]
+            })
+        });
+        this.unsubscribePresenceMethod = new jet.Method('presence/unsubscribePresence1');
+        this.unsubscribePresenceMethod.on('call', function (args) {
+            console.log('Peer: unsubscribe Presence of: ' + args[0]);
+            self.peer.call('presence/add', ['presence1'])
+            self.unsubscribePresence(args[0])
+            self.peer.set('presence/#0', {
+                subscribed_to: ''
+            })
+        });
+        /////////////////////////// PRESENCE ! ///////////////////////////
+
+
+
         this.conferenceCallMethod = new jet.Method('call/conferenceCall1');
         this.conferenceCallMethod.on('call', function (args) {
 
@@ -500,7 +570,8 @@ class Peer_kandy1 {
         this.fetchConversationMethod = new jet.Method('msg/fetchConversation1');
         this.fetchConversationMethod.on('call', function (args) {
             console.log('Peer1: fetchConversationMethod method called..');
-            self.fetchConversations()
+            var conversationList = self.fetchConversations()
+            return self.getConversation()
         });
 
         this.createGroupConversationMethod = new jet.Method('msg/createGroupConversation1');
@@ -851,6 +922,26 @@ class Peer_kandy1 {
             console.log('Peer: setPresence method added')
         }).catch(function (err) {
             console.log('Peer: add set Presence method failed', err);
+        });
+        this.peer.add(this.getPresenceMethod).then(function () {
+            console.log('Peer: getPresence method added')
+        }).catch(function (err) {
+            console.log('Peer: add get Presence method failed', err);
+        });
+        this.peer.add(this.fetchPresenceMethod).then(function () {
+            console.log('Peer: fetchPresence method added')
+        }).catch(function (err) {
+            console.log('Peer: add fetch Presence method failed', err);
+        });
+        this.peer.add(this.subscribePresenceMethod).then(function () {
+            console.log('Peer: subscribePresence method added')
+        }).catch(function (err) {
+            console.log('Peer: add subscribe Presence method failed', err);
+        });
+        this.peer.add(this.unsubscribePresenceMethod).then(function () {
+            console.log('Peer: unsubscribePresence method added')
+        }).catch(function (err) {
+            console.log('Peer: add unsubscribe Presence method failed', err);
         });
 
         this.peer.add(this.getAddrBookMethod).then(function () {
@@ -1223,14 +1314,33 @@ class Peer_kandy1 {
         kandy.on('call:error', this.onError);
         kandy.on('media:error', this.onMediaError);
         kandy.on('devices:retrieved', this.onDevices);
-        //kandy.on('auth:changed',authenticationChanged)
 
         kandy.on('auth:changed', function () {
             var id = '0'
             self.peer.set('login/#' + id, {
                 isConnected1: kandy.getConnection().isConnected
             })
+        });
+        kandy.on('auth:error', function() {
+            var id = '0'
+            self.peer.set('login/#' + id, {
+                isConnected1: kandy.getConnection().isConnected
+            })
+        });
 
+        kandy.on('presence:received', function(data) { //fetchPresence
+            console.log('Peer presence received...: ' + JSON.stringify(data))
+            
+            self.peer.set('presence/#0', {
+                presence_status: data.presence.status,
+                presence_activity: data.presence.activity,
+                presence_note: data.presence.note
+            })
+
+            self.peer.get({ path: { equals: 'presence/#0' } }).then(function (results) {
+                if(results[0].value.presence_status)
+                    document.getElementById('current-presence').innerHTML = results[0].value.presence_status + ', ' + results[0].value.presence_activity;
+            });
         });
 
         kandy.on('contacts:changed', function (data) {
@@ -1238,7 +1348,6 @@ class Peer_kandy1 {
                 console.log('addressbook data' + JSON.stringify(element))
                 //console.log('work phone' + element.workPhone)
             });
-
         });
 
         kandy.on('contacts:error', function (data) {
@@ -1751,7 +1860,7 @@ class Peer_kandy1 {
      * @param  {string} users  A user id or an array of user ids.
      */
     subscribePresence(users) {
-        kand.subscribePresence(users);
+        kandy.subscribePresence(users);
     }
 
     /**
