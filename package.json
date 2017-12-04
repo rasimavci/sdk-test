@@ -11,7 +11,8 @@
     "build:bundle0": "browserify src/instructor.js > bundle0.js",
     "build:bundle2": "browserify src/client2.js > bundle2.js",
     "build:bundle3": "browserify src/client3.js > bundle3.js",
-    "build:bundle7": "browserify src/messagingTest.js > bundle7.js"
+    "build:bundle7": "browserify src/messagingTest.js > bundle7.js",
+    "build:bundle8": "browserify src/presenceTest.js > bundle8.js"
   },
   "author": "Rasim Avci",
   "license": "MIT",
