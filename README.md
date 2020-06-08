@@ -1,13 +1,11 @@
-# Kandy Automation Test Framework
+# WebRTC JS API Test Framework
 
-This repository is for Frameork of realtime testing of Kandy.js code with node-jet api and mocha. The Framework will be able to:
+This repository is made for realtime testing of WebRTC JS API code with node-jet api and mocha. WebRTC JS API is an API between server and client javascript code, provides calls between peers on browsers. Test code is be able to:
 
    - Create calls and share information between peers
-   - Create conversation share messages between peers
-   - Edit Call State
-   - Work simultaneously with multiple clients
-	
-Multiple clients can edit the call state at the same time and ever client sees each other client state changes instantly.
+   - Create conversation and share messages between peers
+   - Manipulate Calls (Hold, Unhold, Mute, Join, Forward etc)
+   - Work simultaneously with multiple clients (Multiple clients can edit the call state at the same time and ever client sees each other client state changes instantly.)
 
 
 To build and run this project run:
