@@ -5,7 +5,7 @@ This repository is made for realtime testing of WebRTC JS API code with node-jet
    - Create calls and share information between peers
    - Create conversation and share messages between peers
    - Manipulate Calls (Hold, Unhold, Mute, Join, Forward etc)
-   - Work simultaneously with multiple clients (Multiple clients can edit the call state at the same time and ever client sees each other client state changes instantly.)
+   - Work simultaneously with multiple clients (Multiple clients can edit the call state at the same time and every client sees each other clients state in real time.)
 
 
 To build and run this project run:
@@ -30,7 +30,7 @@ However KATE is more than that:
    - Self-hostable
    - Fully moduler approach, UAT (Unit Under Test) is customizable
    - Flexible realtime APIs
-   - Distributed Services with Node-Jet
+   - Real Time RPC with Node-Jet
    - Flexible third party test/assertion library
 
 
@@ -38,7 +38,8 @@ Self-hosted means that running **Jet does not involve any 3rd party servers** wh
 In standard way  Node-Jet Daemon runs on pc but can be easily embedded into any Node.js based webserver. 
 
 ## What is Real Benefit ?
-Realtime colloboration between test clients can save you a lot of time. Imagine you have hundreds of tests, and test needs to be verified in real environment. Standard time for a test to be run on a UI takes 3-4 minutes each. 
+Realtime colloboration between test clients can save you a lot of time. Imagine you have hundreds of tests, and every test needs to be verified in real environment. Standard time for a test to be run on a UI takes 3-4 minutes each. We do it real time withoout mocking.
+
 KATE helps you run your API tests without user interface and without mocking anything. By this way, KATE stands between unit test and UI test. Since inline used node-jet library updates states in realtime, all you need is to instruct your test clients to make API calls and get results.
 You don't have to check any UI message and filter them at the client level ! API testing was never been easy.
 
